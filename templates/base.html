@@ -1,0 +1,74 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta name="viewport" content="height=device-height, initial-scale=1.0">
+
+    {% block head %}
+    <link rel="stylesheet" href="style.css" />
+    <title>
+        spaCy.pl
+        {% block title %}
+
+        {% endblock %}
+    </title>
+    {% endblock %}
+
+    <!-- UIkit CSS -->
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/uikit/3.0.0-rc.25/css/uikit.min.css" />
+
+    <!-- UIkit JS -->
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/uikit/3.0.0-rc.25/js/uikit.min.js"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/uikit/3.0.0-rc.25/js/uikit-icons.min.js"></script>
+</head>
+<body>
+    <nav class="uk-navbar-container" id="nav" uk-navbar>
+        <div class="uk-navbar-left">
+            <a class="uk-navbar-item uk-logo" href="/">
+                spaCy.pl
+            </a>
+            {% block nav %}
+            <ul class="uk-navbar-nav">
+                {% for item in menu_items %}
+                    {% if item.active %}
+                        <li class="uk-active">
+                            <a href="{{ item.href }}">
+                                {{ item.name }}
+                            </a>
+                        </li>
+                    {% else %}
+                        <li>
+                            <a href="{{ item.href }}">
+                                {{ item.name }}
+                            </a>
+                        </li>
+                    {% endif %}
+                {% endfor %}
+                <li><a href=""></a></li>
+            </ul>
+            {% endblock %}
+        </div>
+    </nav>
+    <div class="uk-section" uk-height-viewport="expand: true" id="content">
+        <div class="uk-container">
+        {% block content %}
+        {% endblock %}
+        </div>
+    </div>
+    <div class="uk-section uk-section-muted uk-height-max-small" id="footer">
+        <div class="uk-container">
+        <div class="uk-text-center uk-text-middle">
+            {% block footer %}
+                <span class="uk-text-bold">
+                Copyright 2018 spacy.pl team<br/>
+                </span>
+                Krzysztof Kowalczyk
+                Mateusz Olko
+                Piotr Książek
+                Stanisław Giziński
+            {% endblock %}
+        </div>
+        </div>
+    </div>
+</body>
+</html>
