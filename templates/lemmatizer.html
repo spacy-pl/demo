@@ -1,6 +1,5 @@
-{% extends "base.html" %}
-
-{% block content %}
+<!-- LEMMATIZER SEARCH DEMO -->
+<div class="uk-container uk-margin-bottom" id="lemmatizer-content">
     <article class="uk-article">
         <h1 class="uk-article-title">
             <a class="uk-link-reset" href="">
@@ -9,54 +8,47 @@
         </h1>
 
         <p class="uk-text-lead">
-                Lemmatisation (or lemmatization) in linguistics is the process of grouping 
-                together the inflected forms of a word so they can be analysed as a single item, 
-                identified by the word's lemma, or dictionary form. - Wikipedia
+            Lemmatization is the process of grouping
+            together forms of a word so they can be analysed as a single item,
+            identified by the word's lemma, or dictionary form. - Wikipedia
         </p>
         <p>
-            To present how lemmatization can be used in real world situations, 
+            To present how lemmatization can be used in real world situations,
             we have implemented a simple search tool that looks for words in
-            a classic polish work of art - "Pan Tadeusz" by Adam Mickiewicz. 
+            an invocation to "Pan Tadeusz" - a classic polish work of art written by Adam Mickiewicz.
             The search tool tries to match words provided in a form in two ways:
-            <ul>
-                <li>
-                    by comparing words directly
-                </li>
-                <li>
-                    by comparing words' lemmas, or dictionary forms
-                </li>
-            </ul>
-            Because polish language is very complex, searching direct matches of 
-            words would often return nothing, lemmatization partialy solves this 
-            problems, allowing for a much more meaningful search.
+            <br>
+            <span class="uk-label uk-label-success uk-text-uppercase">
+                by comparing words directly
+            </span>
+            and
+            <span class="uk-label uk-label-warning uk-text-uppercase">
+                by comparing words' lemmas
+            </span>
+            <br>
+            Because polish language is very complex, searching direct matches of
+            words would often return nothing. Instead, we can return words
+            that have same lemmas as searched word, which yields more useful results.
         </p>
         <p>
-            Type a sentence or list of words to search for their appearences.
+            Type some words to search for their appearences in the text below:
         </p>
         <form action="/lemmatizer" id="search" method="post">
             <div class="uk-margin" uk-margin>
-                <input class="uk-input uk-form-width-large" 
-                       type="text" name="query" placeholder="{{ query }}">
-                <button class="uk-button uk-button-default" 
+                <input class="uk-input uk-form-width-large"
+                       id="lemmatizer-search-input"
+                       type="text" name="query" placeholder="">
+                <button class="uk-button uk-button-default"
+                        id="lemmatizer-search-submit"
                         type="submit" form="search" value="Submit">
                     Submit
                 </button>
             </div>
         </form>
-        <p>
-        {% for item in search_results %}
-            {% if item.direct_match %}
-                <span class="uk-label uk-label-success">
-                    {{ item.token_text }}
-                </span>
-            {% elif item.lemma_match %}
-                <span class="uk-label uk-label-warning">
-                    {{ item.token_text }}
-                </span>
-            {% else %}
-                {{ item.token_text }}
-            {% endif %}
-        {% endfor %}
-        </p>
+        <div class="uk-text-center uk-text-small">
+            <p id="lemmatizer-search-output">
+                <!-- Container for lemmatizer search output -->
+            </p>
+        </div>
     </article>
-{% endblock %}
+</div>

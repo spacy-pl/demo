@@ -1,0 +1,182 @@
+<!-- MAIN PAGE -->
+<div class="uk-container uk-margin-bottom" id="home-content">
+    <article class="uk-article">
+        <h1 class="uk-article-title">
+            <a class="uk-link-reset" href="">
+                spaCy.pl
+            </a>
+        </h1>
+
+        <p class="uk-text-lead">
+            Deevloping tools for polish language processing in
+            <a href="https://spacy.io/">spaCy</a>.
+        </p>
+        <p>
+            Our goal is to extend <a href="https://spacy.io/">spaCy</a> to fully support
+            polish language. To do this, we need to implement:
+        <ul>
+            <li>Tokenization</li>
+            <li>Lemmatization</li>
+            <li>Part-of-Speech Tagging</li>
+            <li>Dependency parsing</li>
+            <li>Named entity recognition</li>
+            <li>Word vectorization</li>
+        </ul>
+        We are dedicated to using state-of-the art techniques, which
+        will be demonstrated on this website.
+        </p>
+
+        <h3>Our team</h3>
+        <div class="uk-grid-medium
+                    uk-child-width-1-1@s
+                    uk-child-width-1-1@m
+                    uk-child-width-1-2@l
+                    uk-child-width-1-2@xl
+                    uk-text-center"
+             uk-grid>
+            <!-- Stanisław -->
+            <div>
+                <div class="uk-card uk-card-default">
+                    <div class="uk-card-header">
+                        <div class="uk-grid-small uk-flex-middle" uk-grid>
+                            <div class="uk-width-auto">
+                                <img class="uk-border-circle"
+                                     width="80"
+                                     height="80"
+                                     src="https://via.placeholder.com/80">
+                            </div>
+                            <div class="uk-width-expand">
+                                <h3 class="uk-card-title uk-margin-remove-bottom">
+                                    Stanisław Giziński
+                                </h3>
+                                <p class="uk-text-meta uk-margin-remove-top">
+                                    TODO: GitHub link
+                                </p>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="uk-card-body">
+                        <p>
+                            Team leader, has the most extensive NLP background.
+                            Responsible mainly for integrating various data sources into
+                            managable pipelines and making sure our research is done properly.
+                        </p>
+                    </div>
+                </div>
+            </div>
+
+            <!-- Krzyztof -->
+            <div>
+                <div class="uk-card uk-card-default">
+                    <div class="uk-card-header">
+                        <div class="uk-grid-small uk-flex-middle" uk-grid>
+                            <div class="uk-width-auto">
+                                <img class="uk-border-circle"
+                                     width="80"
+                                     height="80"
+                                     src="{{ url_for('static', filename='png/krzysztof.png') }}">
+                            </div>
+                            <div class="uk-width-expand">
+                                <h3 class="uk-card-title uk-margin-remove-bottom">
+                                    Krzysztof Kowalczyk
+                                </h3>
+                                <p class="uk-text-meta uk-margin-remove-top">
+                                    <a href="https://www.linkedin.com/in/kowaalczyk/"
+                                       class="uk-padding-small">LinkedIn</a>
+                                    <a href="https://github.com/kowaalczyk/"
+                                       class="uk-padding-small">GitHub</a>
+                                    <a href="https://www.kaggle.com/kowaalczyk"
+                                       class="uk-padding-small">Kaggle</a>
+                                </p>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="uk-card-body">
+                        <p>
+                            Presentation and QA specialist, makes sure that our code
+                            is well-written and works as intended by reviewing and testing it.
+                            He has also created this demo and other project presentations.
+                        </p>
+                    </div>
+                </div>
+            </div>
+
+            <!-- Piotr -->
+            <div>
+                <div class="uk-card uk-card-default">
+                    <div class="uk-card-header">
+                        <div class="uk-grid-small uk-flex-middle" uk-grid>
+                            <div class="uk-width-auto">
+                                <img class="uk-border-circle"
+                                     width="80"
+                                     height="80"
+                                     src="https://via.placeholder.com/80">
+                            </div>
+                            <div class="uk-width-expand">
+                                <h3 class="uk-card-title uk-margin-remove-bottom">
+                                    Piotr Ksiązek
+                                </h3>
+                                <p class="uk-text-meta uk-margin-remove-top">
+                                    TODO: GitHub link
+                                </p>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="uk-card-body">
+                        <p>
+                            Developer and researcher, currently focused
+                            on Tokenization and POS Tagging. He has completed
+                            a statistical analysis of NKJP corpus, that allowed us
+                            to create a mapping between NKJP tags and UD POS.
+                        </p>
+                    </div>
+                </div>
+            </div>
+
+            <!-- Mateusz -->
+            <div>
+                <div class="uk-card uk-card-default">
+                    <div class="uk-card-header">
+                        <div class="uk-grid-small uk-flex-middle" uk-grid>
+                            <div class="uk-width-auto">
+                                <img class="uk-border-circle"
+                                     width="80"
+                                     height="80"
+                                     src="https://via.placeholder.com/80">
+                            </div>
+                            <div class="uk-width-expand">
+                                <h3 class="uk-card-title uk-margin-remove-bottom">
+                                    Mateusz Olko
+                                </h3>
+                                <p class="uk-text-meta uk-margin-remove-top">
+                                    TODO: GitHub link
+                                </p>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="uk-card-body">
+                        <p>
+                            Developer and researcher that initially contacted us with Sigmoidal.
+                            Up to this point, he was mainly focused on the lemmatizer,
+                            which also required an extensive research of lemmatization methods and tools.
+                        </p>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+        <h3>Project principal</h3>
+        <p>
+            This project is a part of our BSc thesis at
+            <a href="https://mimuw.edu.pl">
+                University of Warsaw,
+                Faculty of Mathematics, Informatics and Mechanics
+                (MIM UW)
+            </a>.
+            <br><br>
+            It was proposed by <a href="https://sigmoidal.io/">Sigmoidal LLC</a>,
+            a Machine Learning Consulting firm experienced
+            in applying AI and Machine Learning to business problems.
+        </p>
+    </article>
+</div>

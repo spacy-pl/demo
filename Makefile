@@ -1,14 +1,11 @@
-all: env-warn download-data install preprocess run-server
+all: env-warn install preprocess run-server
 
 env-warn:
 	@echo "Make sure to run all of the scripts in a virtual environemnt"
 
-download-data:
-	-mkdir data
-# 	cd data && wget https://wolnelektury.pl/media/book/txt/pan-tadeusz.txt
-
 install:
-	pip install -r requirements.txt  # hotfix: add `from .tagger import PolishTagger` to lang.pl.__init__
+	@echo "If some imports fail, you should probably source install-spacy before continuing"
+	pip install -r requirements.txt
 	pip install -e .
 
 preprocess:

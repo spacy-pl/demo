@@ -1,5 +1,7 @@
 Flask==1.0.2
+Flask-Assets==0.12
+cssmin==0.2.0
+jsmin==2.2.2
 Click==7.0
--e git+git@github.com:kowaalczyk/spacy-pl.git@2f4b5ac27a9ae83810b27b22a08f84c9fa51bd79#egg=spacy
 numpy==1.15.4
 tqdm==4.28.1

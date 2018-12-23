@@ -1,19 +1,70 @@
-{% extends "base.html" %}
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta name="viewport" content="height=device-height, initial-scale=1.0">
 
-{% block content %}
-    <article class="uk-article">
-        <h1 class="uk-article-title">
-            <a class="uk-link-reset" href="">
-                spaCy.pl
-            </a>
-        </h1>
+    <title>
+        spaCy.pl
+    </title>
 
-        <p class="uk-text-lead">
-            Implementing full support for polish language in <a href="https://spacy.io/">spaCy</a>.
-        </p>
-        <p>
-            {# TODO: Project description, useful links to external pages (Sigmoidal, MIMUW, our profiles, contact, etc.) #} 
-            Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua. Ut enim ad minim veniam, quis nostrud exercitation ullamco laboris nisi ut aliquip ex ea commodo consequat. Duis aute irure dolor in reprehenderit in voluptate velit esse cillum dolore eu fugiat nulla pariatur. Excepteur sint occaecat cupidatat non proident, sunt in culpa qui officia deserunt mollit anim id est laborum.
-        </p>
-    </article>
-{% endblock %}
+    {% assets "css" %}
+        <link rel="stylesheet" href="{{ ASSET_URL }}"/>
+    {% endassets %}
+
+    {% assets "js" %}
+        <script src="{{ ASSET_URL }}"></script>
+    {% endassets %}
+</head>
+<body>
+<nav class="uk-navbar-container" id="nav" uk-navbar>
+    <div class="uk-navbar-left">
+        <a class="uk-navbar-item uk-logo" href="#home-content" id="navbar-logo">
+            spaCy.pl
+        </a>
+        <ul class="uk-navbar-nav" id="menu-item-list">
+            <li class="uk-active" id="home-menu-item">
+                <a href="#home-content">
+                    About the project
+                </a>
+            </li>
+            <li class="" id="lemmatizer-menu-item">
+                <a href="#lemmatizer-content">
+                    Lemmatization
+                </a>
+            </li>
+            <li class="" id="vectors-menu-item">
+                <a href="#vectors-content">
+                    Word vectors
+                </a>
+            </li>
+        </ul>
+    </div>
+</nav>
+<div class="uk-section" uk-height-viewport="expand: true" id="content">
+    {% include 'home.html' %}
+    {% include 'lemmatizer.html' %}
+    {% include 'vectors.html' %}
+</div>
+<div class="uk-section uk-section-muted uk-height-max-small uk-padding" id="footer">
+    <div class="uk-container uk-text-center">
+        <div class="uk-text-middle">
+            <span class="uk-text-bold">
+            © 2018 spacy.pl team<br/>
+            </span>
+            Krzysztof Kowalczyk
+            <span class="uk-text-muted">|</span>
+            Mateusz Olko
+            <span class="uk-text-muted">|</span>
+            Piotr Książek
+            <span class="uk-text-muted">|</span>
+            Stanisław Giziński
+        </div>
+        <a href="https://spacy.io">
+            <img src="https://img.shields.io/badge/made%20with%20❤%20and-spaCy-09a3d5.svg" height="20">
+        </a>
+    </div>
+</div>
+</body>
+</html>
