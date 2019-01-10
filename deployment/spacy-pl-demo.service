@@ -1,0 +1,13 @@
+[Unit]
+Description=uWSGI instance to serve spacy-pl-demo
+After=network.target
+
+[Service]
+User=ubuntu
+Group=nginx
+WorkingDirectory=/home/ubuntu/spacy-pl-demo
+Environment="PATH=/home/ubuntu/miniconda3/envs/spacy-demo/bin"
+ExecStart=/home/ubuntu/miniconda3/envs/spacy-demo/bin/uwsgi --ini spacy-pl-demo.ini
+
+[Install]
+WantedBy=multi-user.target
