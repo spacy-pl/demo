@@ -1,4 +1,47 @@
-<!-- TODO VECTOR SIMILARITY DEMO -->
+<!-- VECTOR SIMILARITY DEMO -->
 <div class="uk-container uk-margin-bottom" id="vectors-content">
-    <h1>Word vectors</h1>
+    <article class="uk-article">
+        <h1 class="uk-article-title">
+            Word similarity demo
+        </h1>
+
+        <p class="uk-text-lead">
+            Vectorization is the process of embedding words (tokens) into
+            vectors of floating point numbers. Good vectorizaition allows us to calculate
+            word similarity simply by using euclidean distance between the vectors.
+        </p>
+
+        <p>
+            Generating word vectors and adding them to spaCy not only allows us to
+            calculate similarities between various polish words, but is also an important step
+            on the way to training neural networks - these vectors will serve as their input.
+        </p>
+
+        <p>
+            In this demo however, we just want to showcase how calculating word similarity works.
+            Type some polish words below in order to calculate their similarities:
+        </p>
+
+        <form action="/vectors" id="vectors-similarity" method="post">
+            <div class="uk-margin" uk-margin>
+                <input class="uk-input uk-form-width-large"
+                       id="vectors-similarity-input"
+                       type="text" name="words" placeholder="">
+                <button class="uk-button uk-button-default"
+                        id="vectors-similarity-submit"
+                        type="submit" form="search" value="Submit">
+                    Calculate similarities
+                </button>
+            </div>
+        </form>
+
+        <div class="uk-align-center">
+            <div class="uk-card uk-card-default uk-child-width-1-1@s uk-grid-small">
+                <table id="vectors-similarity-output"
+                       class="uk-table uk-table-hover uk-table-middle uk-table-divider">
+                    <!-- Container for vectors similarity output -->
+                </table>
+            </div>
+        </div>
+    </article>
 </div>

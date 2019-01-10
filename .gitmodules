@@ -2,3 +2,7 @@
 	path = spacy_install
 	url = git@github.com:kowaalczyk/spacy-pl.git
 	branch = demo
+[submodule "spacy_pl_utils"]
+	path = spacy_pl_utils
+	url = git@github.com:Gizzio/spacy-pl-utils.git
+	branch = demo

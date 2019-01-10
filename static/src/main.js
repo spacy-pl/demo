@@ -4,11 +4,9 @@ let pages = [];
 function setActivePage(loadedPages, activePageName) {
     loadedPages.forEach(pageData => {
         if (pageData.page === activePageName) {
-            console.log(`setting ${pageData.page} to active`);
             pageData.menuItem.classList.add('uk-active');
             pageData.contentContainer.classList.remove('uk-hidden');
         } else {
-            console.log(`setting ${pageData.page} to inactive`);
             pageData.menuItem.classList.remove('uk-active');
             pageData.contentContainer.classList.add('uk-hidden');
         }
@@ -33,6 +31,53 @@ function searchHandler(inputElement, outputElement) {
     }).catch(error => {
         console.log(error);
     });
+}
+
+function parseTableRow(rowItemsAsList, itemElement='td', itemsClasses='', firstItemClasses='') {
+    const parsedItems = rowItemsAsList.map((item, idx) => {
+        const classList = idx === 0 ? [itemsClasses, firstItemClasses].join(' ') : itemsClasses;
+        return `<${itemElement} class="${classList}">${item}</${itemElement}>`;
+    }).join(' ');
+    return `<tr> ${parsedItems} </tr>`;
+}
+
+function similarityHandler(inputElement, outputElement) {
+    axios.post('/vectors', {
+        'words': inputElement.value
+    }).then(response => {
+        console.log(response);
+        const headers = parseTableRow(Array.from(response.data['th']), 'td', 'uk-text-bold', '');
+        const tableData = Array.from(response.data['td'])
+            .map(rowOfItems => parseTableRow(Array.from(rowOfItems), 'td', '', 'uk-text-bold'))
+            .join('\n');
+        outputElement.innerHTML = `
+            ${headers}
+            ${tableData}
+        `;
+    }).catch(error => {
+        console.log(error);
+    });
+}
+
+function addDemoEventListener(triggerFormId, handlerFunction, inputElementId, outputElementId) {
+    const inputEl = document.getElementById(inputElementId);
+    const outputEl = document.getElementById(outputElementId);
+    const boundHandler = handlerFunction.bind(null, inputEl, outputEl);
+    document.getElementById(triggerFormId).addEventListener('click', e => {
+        e.preventDefault();
+        boundHandler();
+        return false;
+    });
+    boundHandler();  // execute handler for the 1st time on registration
+}
+
+function addDemoEventListenerWithDefaulNaming(demoEventName, handler) {
+    return addDemoEventListener(
+        `${demoEventName}-submit`,
+        handler,
+        `${demoEventName}-input`,
+        `${demoEventName}-output`
+    );
 }
 
 document.addEventListener('DOMContentLoaded', () => {
@@ -67,15 +112,7 @@ document.addEventListener('DOMContentLoaded', () => {
     });
     console.log("done");
     console.log("setting up demos...");
-    // lemmatizer demo search handler
-    const searchOutputElement = document.getElementById('lemmatizer-search-output');
-    const searchInputElement = document.getElementById('lemmatizer-search-input');
-    const boundSearchHandler = searchHandler.bind(null, searchInputElement, searchOutputElement);
-    document.getElementById('lemmatizer-search-submit').addEventListener('click', e => {
-        e.preventDefault();
-        boundSearchHandler();
-        return false;
-    });
-    boundSearchHandler();  // send an empty search request to populate the page
+    addDemoEventListenerWithDefaulNaming('lemmatizer-search', searchHandler);
+    addDemoEventListenerWithDefaulNaming('vectors-similarity', similarityHandler);
     console.log("done");
 });
