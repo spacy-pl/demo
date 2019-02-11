@@ -11,8 +11,8 @@ install:
 
 preprocess:
 	cd spacy_pl_utils && dvc pull && dvc repro vectors_300.txt.dvc
-	spacy-pl-preprocess-lemmatizer
-	spacy-pl-preprocess-vectors
+	spacy-pl-preprocess-search
+	spacy-pl-preprocess-similarity
 
 
 run-server:

@@ -14,14 +14,19 @@ class SimilarityCalculator(object):
     def __init__(self, model_path: str = MODEL_PATH):
         self.nlp = spacy.load(Path(model_path))
         self.tokens = []
-        self.similarities = []
+        self.word_similarity_pairs = []
 
-    def calculate_pairwise_similarity(self, words: str) -> Tuple[List[str], List[List[float]]]:
+    @property
+    def used_words(self):
+        return [token.text for token in self.tokens]
+
+    def calculate_pairwise_similarity(self, words: str) -> List[list]:
         self.tokens = [token for token in self.nlp(words) if token.is_alpha]
-        self.similarities = [
-            [word1.similarity(word2) for word2 in self.tokens] for word1 in self.tokens
+        self.word_similarity_pairs = [
+            [word1.similarity(word2) for word2 in self.tokens]
+            for word1 in self.tokens
         ]
-        return [token.text for token in self.tokens], self.similarities
+        return self.word_similarity_pairs
 
 
 @click.command("Initializes model with word vectors and saves it to model path.")

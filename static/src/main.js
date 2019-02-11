@@ -14,7 +14,7 @@ function setActivePage(loadedPages, activePageName) {
 }
 
 function searchHandler(inputElement, outputElement) {
-    axios.post('/lemmatizer', {
+    axios.post('/search-demo', {
         query: inputElement.value
     }).then(response => {
         console.log(response);
@@ -42,7 +42,7 @@ function parseTableRow(rowItemsAsList, itemElement='td', itemsClasses='', firstI
 }
 
 function similarityHandler(inputElement, outputElement) {
-    axios.post('/vectors', {
+    axios.post('/similarity-demo', {
         'words': inputElement.value
     }).then(response => {
         console.log(response);
