@@ -1,7 +1,7 @@
 from typing import List, NamedTuple
 import pickle
 
-from tqdm import tqdm
+import click
 from spacy.lang.pl import Polish, PolishTagger  # hotfix for getting lemmatizer to work
 
 DOC_TEXT_PATH = 'data/pan-tadeusz.txt'
@@ -64,7 +64,7 @@ class Finder(object):
 
     @property
     def find_results(self) -> List[SearchResult]:
-        return [self._check_token(token) for token in tqdm(self.doc)]
+        return [self._check_token(token) for token in self.doc]
 
     def _check_token(self, token: DemoToken) -> SearchResult:
         if not token.is_alpha:
@@ -75,6 +75,7 @@ class Finder(object):
             return SearchResult(token.text_with_ws, lemma_match, direct_match)
 
 
+@click.command("Processes provided document, saving it as an array of tokens with preserved lemma information.")
 def preprocess(doc_text_path: str = DOC_TEXT_PATH, doc_pickle_path: str = DOC_PICKLE_PATH):
     print(f"Reading {doc_text_path}, this may take a while...")
     with open(doc_text_path, 'r') as text_file:

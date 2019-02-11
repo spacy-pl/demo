@@ -6,7 +6,8 @@ setup(
     packages=find_packages(include=['spacy_pl_demo']),
     entry_points={
         'console_scripts': [
-            'spacy-pl-demo-preprocess = spacy_pl_demo.preprocess:preprocess'
+            'spacy-pl-preprocess-vectors = spacy_pl_demo.vectors:preprocess',
+            'spacy-pl-preprocess-lemmatizer = spacy_pl_demo.lemmatizer:preprocess',
         ]
     }
 )

@@ -1,5 +1,6 @@
 from typing import List, Tuple
 
+import click
 from pathlib import Path
 import spacy
 from spacy.cli import init_model
@@ -23,6 +24,7 @@ class SimilarityCalculator(object):
         return [token.text for token in self.tokens], self.similarities
 
 
+@click.command("Initializes model with word vectors and saves it to model path.")
 def preprocess(vectors_path: str = RAW_VECTORS_PATH, model_path: str = MODEL_PATH):
     nlp = init_model('pl', Path(model_path), vectors_loc=vectors_path)
     return nlp
