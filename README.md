@@ -31,12 +31,16 @@ Server is set up to autoreload whenever app or its dependencies change.
 In addition to prerequisites described earlier, this requires 
 a machine with nginx installed and running as a service.
 
+Also, make sure that nginx is configured to restart automatically in case of system failure.
+The easiest way to do this is to modify `/lib/systemd/system/nginx.service`, adding the following line below the `[Service]` tag:
+```
+Restart=always
+```
+
 To perform full deployment:
 ```
 conda create -n spacy-demo  # only for the 1st time
 source activate spacy-demo
-make install
-make preprocess
 make deploy
 ```
 Expect to be prompted for password muliple times - 

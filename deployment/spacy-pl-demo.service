@@ -8,6 +8,7 @@ Group=nginx
 WorkingDirectory=/home/ubuntu/spacy-pl-demo
 Environment="PATH=/home/ubuntu/miniconda3/envs/spacy-demo/bin"
 ExecStart=/home/ubuntu/miniconda3/envs/spacy-demo/bin/uwsgi --ini spacy-pl-demo.ini
+Restart=always
 
 [Install]
 WantedBy=multi-user.target
