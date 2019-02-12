@@ -1,11 +1,12 @@
-from typing import List, NamedTuple
-import pickle
+from typing import List
+from dataclasses import dataclass, asdict
+import json
 
 import click
 from spacy.lang.pl import Polish, PolishTagger  # hotfix for getting lemmatizer to work
 
-DOC_TEXT_PATH = 'data/pan-tadeusz.txt'
-DOC_PICKLE_PATH = 'data/pan-tadeusz.pkl'
+DOC_RAW_PATH = 'data/pan-tadeusz.txt'
+DOC_PROCESSED_PATH = 'data/pan-tadeusz.json'
 
 MAX_RETURNED_TOKENS = 5000
 
@@ -17,29 +18,31 @@ nlp.add_pipe(tagger, first=True, name='polish_tagger')
 class SearchProcessor(object):
     def __init__(
             self,
-            processed_doc_path: str = DOC_PICKLE_PATH,
+            processed_doc_path: str = DOC_PROCESSED_PATH,
             max_returned_tokens: int = MAX_RETURNED_TOKENS
     ):
-        with open(processed_doc_path, 'rb') as file:
-            self.doc = pickle.load(file)
+        with open(processed_doc_path, 'r') as file:
+            doc_as_dicts = json.load(file)
+        self.doc = [DemoToken(**token_dict) for token_dict in doc_as_dicts]
         self.max_returned_tokens = max_returned_tokens
 
-    def process_query(self, query: str):
+    def process_query(self, query: str) -> List[dict]:
         finder = Finder(self.doc, query)
-        return finder.find_results[:self.max_returned_tokens]
+        results = finder.find_results[:self.max_returned_tokens]
+        return list(map(asdict, results))
 
 
-class DemoToken(object):  # Not a NamedTuple - bad behaviour of @classmethod
+@dataclass
+class DemoToken(object):
     """ Compatible with spacy's token, but without lazy evaluation. """
-    def __init__(self, text: str, lemma_: str, text_with_ws: str, is_alpha: bool, is_stop: bool):
-        self.text = text
-        self.lemma_ = lemma_
-        self.text_with_ws = text_with_ws
-        self.is_alpha = is_alpha
-        self.is_stop = is_stop
+    text: str
+    lemma_: str
+    text_with_ws: str
+    is_alpha: str
+    is_stop: str
 
     @classmethod
-    def from_spacy_token(cls, spacy_token):
+    def from_spacy(cls, spacy_token):
         return cls(
             spacy_token.text,
             spacy_token.lemma_,
@@ -49,7 +52,8 @@ class DemoToken(object):  # Not a NamedTuple - bad behaviour of @classmethod
         )
 
 
-class SearchResult(NamedTuple):
+@dataclass
+class SearchResult(object):
     token_text: str
     lemma_match: bool = False
     direct_match: bool = False
@@ -76,10 +80,10 @@ class Finder(object):
 
 
 @click.command("Processes provided document, saving it as an array of tokens with preserved lemma information.")
-def preprocess(doc_text_path: str = DOC_TEXT_PATH, doc_pickle_path: str = DOC_PICKLE_PATH):
+def preprocess(doc_text_path: str = DOC_RAW_PATH, doc_json_path: str = DOC_PROCESSED_PATH):
     print(f"Reading {doc_text_path}, this may take a while...")
     with open(doc_text_path, 'r') as text_file:
         doc = nlp(text_file.read())
-    processed_doc = [DemoToken.from_spacy_token(token) for token in doc]
-    with open(doc_pickle_path, 'wb') as pickle_file:
-        pickle.dump(processed_doc, pickle_file)
+    processed_doc = [asdict(DemoToken.from_spacy(token)) for token in doc]
+    with open(doc_json_path, 'w') as json_file:
+        json.dump(processed_doc, json_file)

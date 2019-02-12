@@ -43,8 +43,7 @@ def search_demo_handler():
     print(f"query={repr(query)}")
     sp = search_demo.SearchProcessor()
     search_results = sp.process_query(query)
-    search_results_json = jsonify([sr._asdict() for sr in search_results])
-    return search_results_json, 200
+    return jsonify(search_results), 200
 
 
 @app.route('/similarity-demo', methods=['POST'])
