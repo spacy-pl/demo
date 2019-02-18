@@ -7,6 +7,7 @@ install:
 	pip install -r requirements.txt
 	pip install -r spacy_pl_utils/requirements.txt
 	pip install -e .
+	-rm -rf src  # this removes temporary folder created by re-yield installation
 
 preprocess:
 	cd spacy_pl_utils && dvc pull && dvc repro vectors_300.txt.dvc

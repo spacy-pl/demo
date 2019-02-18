@@ -20,12 +20,15 @@ as well as python 3.7 or newer
 Execute these to install dependencies, preprocess data and run a 
 Flask development server on `localhost:5000`:
 ```bash
+git submodule init  # only for the 1st time
+git submodule update --recursive  # only for the 1st time
 conda create -n spacy-demo  # only for the 1st time
 source activate spacy-demo
-source install-spacy
-make develop # setup & start server, this can take a few minutes
+make develop  # setup & start server, this can take a few minutes
 ```
 Server is set up to autoreload whenever app or its dependencies change.
+Develop is a long process that can be divided into smaller automated steps if necessary 
+- see `Makefile` for more details.
 
 ## Deployment
 In addition to prerequisites described earlier, this requires 

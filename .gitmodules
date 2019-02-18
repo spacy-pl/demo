@@ -1,8 +1,8 @@
-[submodule "spacy"]
+[submodule "spacy_install"]
 	path = spacy_install
-	url = git@github.com:kowaalczyk/spacy-pl.git
+	url = git@github.com:spacy-pl/spaCy.git
 	branch = demo
 [submodule "spacy_pl_utils"]
 	path = spacy_pl_utils
-	url = git@github.com:Gizzio/spacy-pl-utils.git
+	url = git@github.com:spacy-pl/utils.git
 	branch = demo
