@@ -11,8 +11,7 @@ Application requires specific version of spacy (located in the `spacy_install` d
 the included data, most of which is automated in the `Makefile`.
 
 ## Prerequisites
-Make sure you have access to pull `kowaalczyk/spacy_pl` and `Gizzio/spacy_pl_utils`, 
-aws cli installed and configured for reading `s3://spacy.pl` 
+Make sure you have aws cli installed and configured for reading `s3://spacy.pl` 
 as well as python 3.7 or newer 
 (dev setup and deployment were tested on conda python 3.7.1 distribution).
 
@@ -40,8 +39,10 @@ The easiest way to do this is to modify `/lib/systemd/system/nginx.service`, add
 Restart=always
 ```
 
-To perform full deployment:
+To perform full deployment, execute this on a server after cloning the repo:
 ```
+git submodule init  # only for the 1st time
+git submodule update --recursive  # only for the 1st time
 conda create -n spacy-demo  # only for the 1st time
 source activate spacy-demo
 make deploy
