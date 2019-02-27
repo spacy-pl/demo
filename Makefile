@@ -1,13 +1,17 @@
-develop: env-warn install preprocess run-server
+develop: env-warn install-dependencies install preprocess run-server
 
 env-warn:
 	@echo "Make sure to run all of the scripts in a virtual environemnt"
 
-install:
+install-dependencies:
 	pip install -r requirements.txt
 	pip install -r spacy_pl_utils/requirements.txt
-	pip install -e .
+	pip install -r spacy_install/requirements.txt
+	pip install ./spacy_install
 	-rm -rf src  # this removes temporary folder created by re-yield installation
+
+install:
+	pip install -e .
 
 preprocess:
 	cd spacy_pl_utils && dvc pull && dvc repro vectors_300.txt.dvc
@@ -17,7 +21,7 @@ preprocess:
 run-server:
 	-export FLASK_ENV=development && export FLASK_APP=app.py && flask run --host=0.0.0.0
 
-deploy: env-warn install preprocess deploy-install deploy-setup deploy-enable-demo deploy-enable-nginx
+deploy: env-warn install-dependencies install preprocess deploy-install deploy-setup deploy-enable-demo deploy-enable-nginx
 
 deploy-install:
 	sudo apt update

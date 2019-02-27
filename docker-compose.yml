@@ -1,0 +1,10 @@
+version: '2'
+services:
+  demo:
+    build: .
+    ports:
+      - "5000:5000"
+    volumes:
+      - ".:/demo"
+    working_dir: /demo
+    command: "make install preprocess run-server"

@@ -1,0 +1,7 @@
+*
+!dev
+!spacy_pl_utils
+!spacy_install
+!spacy_pl_demo
+!Makefile
+!requirements.txt

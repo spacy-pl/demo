@@ -29,6 +29,17 @@ Server is set up to autoreload whenever app or its dependencies change.
 Develop is a long process that can be divided into smaller automated steps if necessary 
 - see `Makefile` for more details.
 
+### Docker (WIP)
+The Docker container can be built using docker compose.
+This works, but is not yet as efficient as I would like it to be.
+
+1. In order for dvc to work, set up your aws credentials and 
+copy `~/.aws` directory contents into `dev/.aws`. They will not 
+be added to git thanks to `dev/.gitignore`.
+2. `docker-compose build` installs as much as possible, this is only done once
+3. `docker-compose up` currently not only runs the app, but also some preprocessing
+which in the future will likely be moved to build.
+
 ## Deployment
 In addition to prerequisites described earlier, this requires 
 a machine with nginx installed and running as a service.
