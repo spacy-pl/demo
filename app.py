@@ -46,6 +46,7 @@ def search_demo_handler():
     return jsonify(search_results), 200
 
 
+
 @app.route('/similarity-demo', methods=['POST'])
 def similarity_demo_handler():
     """

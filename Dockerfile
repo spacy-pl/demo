@@ -1,5 +1,7 @@
 FROM conda/miniconda3:latest
 
+ARG gc_key_path="/root/gc-key.json"
+
 # install system-level dependencies, as in: https://github.com/crosbymichael/build-essential-docker
 RUN apt update && apt install -y --no-install-recommends \
     make \
@@ -13,7 +15,10 @@ RUN apt update && apt install -y --no-install-recommends \
     autoconf \
     pkg-config \
     git
-COPY dev/.aws /root/.aws
+
+# set up Google Cloud credentials
+COPY dev/*.json /root/
+ENV GOOGLE_APPLICATION_CREDENTIALS=$gc_key_path
 
 # copy utils and install library and install them with all dependencies
 COPY requirements.txt /requirements.txt

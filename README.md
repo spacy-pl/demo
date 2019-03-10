@@ -11,9 +11,8 @@ Application requires specific version of spacy (located in the `spacy_install` d
 the included data, most of which is automated in the `Makefile`.
 
 ## Prerequisites
-Make sure you have aws cli installed and configured for reading `s3://spacy.pl` 
-as well as python 3.7 or newer 
-(dev setup and deployment were tested on conda python 3.7.1 distribution).
+Make sure you have aws cli installed and configured for reading the remote server specified in `spacy_pl_utils/.dvc/config` 
+as well as python 3.7 or newer (dev setup and deployment were tested on conda python 3.7.1 distribution).
 
 ## Dev setup
 Execute these to install dependencies, preprocess data and run a 
@@ -33,12 +32,13 @@ Develop is a long process that can be divided into smaller automated steps if ne
 The Docker container can be built using docker compose.
 This works, but is not yet as efficient as I would like it to be.
 
-1. In order for dvc to work, set up your aws credentials and 
-copy `~/.aws` directory contents into `dev/.aws`. They will not 
-be added to git thanks to `dev/.gitignore`.
+1. In order for dvc to work, place your google cloud json key in `dev/`, its protected from adding to git via `.gitignore`
 2. `docker-compose build` installs as much as possible, this is only done once
 3. `docker-compose up` currently not only runs the app, but also some preprocessing
-which in the future will likely be moved to build.
+which in the future will likely be moved to build (but is now impossible due to demo's directory structure)
+
+Docker volume is mounted so that demo package and app itself auto-reloads on any change in source files.
+Note that changes to spacy or utils directories will **NOT** result in a reload.
 
 ## Deployment
 In addition to prerequisites described earlier, this requires 
