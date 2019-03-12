@@ -1,0 +1,315 @@
+
+<div class="cell border-box-sizing text_cell rendered"><div class="prompt input_prompt uk-text-small uk-text-muted">
+</div>
+<div class="inner_cell">
+<div class="text_cell_render border-box-sizing rendered_html">
+<h1 id="Components:-Tokenizer,-Lemmatizer,-Lexical-Attributes">Components: Tokenizer, Lemmatizer, Lexical Attributes</h1><p>This notebook demonstrates the usage of <code>Polish</code> language class in spaCy. It uses the spaCy version from <a href="https://github.com/spacy-pl/spaCy/tree/demo">demo branch of our forked spaCy repository</a></p>
+
+</div>
+</div>
+</div>
+<div class="cell border-box-sizing text_cell rendered"><div class="prompt input_prompt uk-text-small uk-text-muted">
+</div>
+<div class="inner_cell">
+<div class="text_cell_render border-box-sizing rendered_html">
+<h3 id="Loading-language-class">Loading language class</h3>
+</div>
+</div>
+</div>
+<div class="cell border-box-sizing text_cell rendered"><div class="prompt input_prompt uk-text-small uk-text-muted">
+</div>
+<div class="inner_cell">
+<div class="text_cell_render border-box-sizing rendered_html">
+<p>Because our models are not ready yet, we use a dummy tagger that always returns unknown tag. This hack is required for other language components to work correctly, but it soon won't be necessary - we will update the notebook as soon as we have the models trained and packaged</p>
+
+</div>
+</div>
+</div>
+<div class="cell border-box-sizing code_cell rendered">
+<div class="input">
+<div class="prompt input_prompt uk-text-small uk-text-muted">In&nbsp;[1]:</div>
+<div class="inner_cell">
+    <div class="input_area">
+<div class=" highlight hl-ipython3"><pre><code><span></span><span class="kn uk-text-bold">import</span> <span class="nn">spacy</span>
+<span class="kn uk-text-bold">from</span> <span class="nn">spacy.lang.pl</span> <span class="k uk-text-bold">import</span> <span class="n uk-text-emphasis">Polish</span><span class="p uk-text-bold">,</span> <span class="n uk-text-emphasis">PolishTagger</span>  <span class="c1 uk-text-muted"># hotfix for getting lemmatizer to work</span>
+</code></pre></div>
+
+</div>
+</div>
+</div>
+
+</div>
+<div class="cell border-box-sizing code_cell rendered">
+<div class="input">
+<div class="prompt input_prompt uk-text-small uk-text-muted">In&nbsp;[2]:</div>
+<div class="inner_cell">
+    <div class="input_area">
+<div class=" highlight hl-ipython3"><pre><code><span></span><span class="n uk-text-emphasis">nlp</span> <span class="o">=</span> <span class="n uk-text-emphasis">Polish</span><span class="p uk-text-bold">()</span>
+<span class="n uk-text-emphasis">tagger</span> <span class="o">=</span> <span class="n uk-text-emphasis">PolishTagger</span><span class="p uk-text-bold">(</span><span class="n uk-text-emphasis">nlp</span><span class="o">.</span><span class="n uk-text-emphasis">vocab</span><span class="p uk-text-bold">)</span>  <span class="c1 uk-text-muted"># hotfix for getting lemmatizer to work</span>
+<span class="n uk-text-emphasis">nlp</span><span class="o">.</span><span class="n uk-text-emphasis">add_pipe</span><span class="p uk-text-bold">(</span><span class="n uk-text-emphasis">tagger</span><span class="p uk-text-bold">,</span> <span class="n uk-text-emphasis">first</span><span class="o">=</span><span class="kc">True</span><span class="p uk-text-bold">,</span> <span class="n uk-text-emphasis">name</span><span class="o">=</span><span class="s1">&#39;polish_tagger&#39;</span><span class="p uk-text-bold">)</span>
+</code></pre></div>
+
+</div>
+</div>
+</div>
+
+</div>
+<div class="cell border-box-sizing code_cell rendered">
+<div class="input">
+<div class="prompt input_prompt uk-text-small uk-text-muted">In&nbsp;[3]:</div>
+<div class="inner_cell">
+    <div class="input_area">
+<div class=" highlight hl-ipython3"><pre><code><span></span><span class="n uk-text-emphasis">pan_tadeusz</span> <span class="o">=</span> <span class="s2 uk-text-primary">&quot;&quot;&quot;</span>
+<span class="s2 uk-text-primary">Litwo! Ojczyzno moja! ty jesteś jak zdrowie:</span>
+<span class="s2 uk-text-primary">Ile cię trzeba cenić, ten tylko się dowie,</span>
+<span class="s2 uk-text-primary">Kto cię stracił. Dziś piękność twą w całej ozdobie</span>
+<span class="s2 uk-text-primary">Widzę i opisuję, bo tęsknię po tobie.</span>
+
+<span class="s2 uk-text-primary">    Panno święta, co Jasnej bronisz Częstochowy</span>
+<span class="s2 uk-text-primary">I w Ostrej świecisz Bramie! Ty, co gród zamkowy</span>
+<span class="s2 uk-text-primary">Nowogródzki ochraniasz z jego wiernym ludem!</span>
+<span class="s2 uk-text-primary">Jak mnie dziecko do zdrowia powróciłaś cudem</span>
+<span class="s2 uk-text-primary">(Gdy od płaczącej matki, pod Twoją opiekę</span>
+<span class="s2 uk-text-primary">Ofiarowany, martwą podniosłem powiekę;</span>
+<span class="s2 uk-text-primary">I zaraz mogłem pieszo, do Twych świątyń progu</span>
+<span class="s2 uk-text-primary">Iść za wrócone życie podziękować Bogu),</span>
+<span class="s2 uk-text-primary">Tak nas powrócisz cudem na Ojczyzny łono.</span>
+<span class="s2 uk-text-primary">Tymczasem przenoś moją duszę utęsknioną</span>
+<span class="s2 uk-text-primary">Do tych pagórków leśnych, do tych łąk zielonych,</span>
+<span class="s2 uk-text-primary">Szeroko nad błękitnym Niemnem rozciągnionych;</span>
+<span class="s2 uk-text-primary">Do tych pól malowanych zbożem rozmaitem,</span>
+<span class="s2 uk-text-primary">Wyzłacanych pszenicą, posrebrzanych żytem;</span>
+<span class="s2 uk-text-primary">Gdzie bursztynowy świerzop, gryka jak śnieg biała,</span>
+<span class="s2 uk-text-primary">Gdzie panieńskim rumieńcem dzięcielina pała,</span>
+<span class="s2 uk-text-primary">A wszystko przepasane jakby wstęgą, miedzą</span>
+<span class="s2 uk-text-primary">Zieloną, na niej z rzadka ciche grusze siedzą.</span>
+<span class="s2 uk-text-primary">&quot;&quot;&quot;</span>
+</code></pre></div>
+
+</div>
+</div>
+</div>
+
+</div>
+<div class="cell border-box-sizing text_cell rendered"><div class="prompt input_prompt uk-text-small uk-text-muted">
+</div>
+<div class="inner_cell">
+<div class="text_cell_render border-box-sizing rendered_html">
+<h3 id="Parsing-the-data">Parsing the data</h3><p>Right now, the data processing takes very long (&gt;1min for such a small document)
+due to our hack for getting a lemmatizer to work:</p>
+<p>Because we don't have a loaded POS Tagger at the moment, we created a dummy tagger
+that always returns an unknown tag. This triggers lemmatizer to search all available rules
+instead of the ones for a specific POS tag.</p>
+
+</div>
+</div>
+</div>
+<div class="cell border-box-sizing code_cell rendered">
+<div class="input">
+<div class="prompt input_prompt uk-text-small uk-text-muted">In&nbsp;[4]:</div>
+<div class="inner_cell">
+    <div class="input_area">
+<div class=" highlight hl-ipython3"><pre><code><span></span><span class="n uk-text-emphasis">doc</span> <span class="o">=</span> <span class="n uk-text-emphasis">nlp</span><span class="p uk-text-bold">(</span><span class="n uk-text-emphasis">pan_tadeusz</span><span class="p uk-text-bold">)</span>
+<span class="n uk-text-emphasis">doc</span>
+</code></pre></div>
+
+</div>
+</div>
+</div>
+
+<div class="output_wrapper">
+<div class="prompt uk-text-small uk-text-muted">
+
+
+<div class="output_area">
+
+<div class="prompt output_prompt uk-text-small uk-text-muted">Out[4]:</div>
+
+
+
+
+<div class="output_text output_subarea output_execute_result">
+<pre><code>
+Litwo! Ojczyzno moja! ty jesteś jak zdrowie:
+Ile cię trzeba cenić, ten tylko się dowie,
+Kto cię stracił. Dziś piękność twą w całej ozdobie
+Widzę i opisuję, bo tęsknię po tobie.
+
+    Panno święta, co Jasnej bronisz Częstochowy
+I w Ostrej świecisz Bramie! Ty, co gród zamkowy
+Nowogródzki ochraniasz z jego wiernym ludem!
+Jak mnie dziecko do zdrowia powróciłaś cudem
+(Gdy od płaczącej matki, pod Twoją opiekę
+Ofiarowany, martwą podniosłem powiekę;
+I zaraz mogłem pieszo, do Twych świątyń progu
+Iść za wrócone życie podziękować Bogu),
+Tak nas powrócisz cudem na Ojczyzny łono.
+Tymczasem przenoś moją duszę utęsknioną
+Do tych pagórków leśnych, do tych łąk zielonych,
+Szeroko nad błękitnym Niemnem rozciągnionych;
+Do tych pól malowanych zbożem rozmaitem,
+Wyzłacanych pszenicą, posrebrzanych żytem;
+Gdzie bursztynowy świerzop, gryka jak śnieg biała,
+Gdzie panieńskim rumieńcem dzięcielina pała,
+A wszystko przepasane jakby wstęgą, miedzą
+Zieloną, na niej z rzadka ciche grusze siedzą.</code></pre>
+</div>
+
+</div>
+
+</div>
+</div>
+
+</div>
+<div class="cell border-box-sizing text_cell rendered"><div class="prompt input_prompt uk-text-small uk-text-muted">
+</div>
+<div class="inner_cell">
+<div class="text_cell_render border-box-sizing rendered_html">
+<h3 id="Feature-demonstration">Feature demonstration</h3>
+</div>
+</div>
+</div>
+<div class="cell border-box-sizing text_cell rendered"><div class="prompt input_prompt uk-text-small uk-text-muted">
+</div>
+<div class="inner_cell">
+<div class="text_cell_render border-box-sizing rendered_html">
+<h5 id="Iterating-over-tokens">Iterating over tokens</h5><p>We can easily inspect every token in the document by iterating over it. This way, we can examine how well our lemmatizer works:</p>
+
+</div>
+</div>
+</div>
+<div class="cell border-box-sizing code_cell rendered">
+<div class="input">
+<div class="prompt input_prompt uk-text-small uk-text-muted">In&nbsp;[5]:</div>
+<div class="inner_cell">
+    <div class="input_area">
+<div class=" highlight hl-ipython3"><pre><code><span></span><span class="k uk-text-bold">for</span> <span class="n uk-text-emphasis">token</span> <span class="ow uk-text-bold">in</span> <span class="n uk-text-emphasis">doc</span><span class="p uk-text-bold">[:</span><span class="mi uk-text-primary">50</span><span class="p uk-text-bold">]:</span>
+    <span class="k uk-text-bold">if</span> <span class="n uk-text-emphasis">token</span><span class="o">.</span><span class="n uk-text-emphasis">is_alpha</span> <span class="ow uk-text-bold">and</span> <span class="n uk-text-emphasis">token</span><span class="o">.</span><span class="n uk-text-emphasis">lemma_</span> <span class="o">!=</span> <span class="n uk-text-emphasis">token</span><span class="o">.</span><span class="n uk-text-emphasis">lower_</span><span class="p uk-text-bold">:</span>
+        <span class="nb uk-text-emphasis">print</span><span class="p uk-text-bold">(</span><span class="n uk-text-emphasis">f</span><span class="s2 uk-text-primary">&quot;token: </span><span class="si">{token.text}</span><span class="s2 uk-text-primary">; lemma: </span><span class="si">{token.lemma_}</span><span class="s2 uk-text-primary">&quot;</span><span class="p uk-text-bold">)</span>
+</code></pre></div>
+
+</div>
+</div>
+</div>
+
+<div class="output_wrapper">
+<div class="prompt uk-text-small uk-text-muted">
+
+
+<div class="output_area">
+
+<div class="prompt"></div>
+
+
+<div class="output_subarea output_stream output_stdout output_text">
+<pre><code>token: Litwo; lemma: litwa
+token: Ojczyzno; lemma: ojczyzna
+token: ty; lemma: est
+token: zdrowie; lemma: zdr
+token: Ile; lemma: il
+token: dowie; lemma: d
+token: stracił; lemma: stracić
+token: twą; lemma: twa
+token: całej; lemma: cała
+token: ozdobie; lemma: ozdoba
+token: Widzę; lemma: widzieć
+token: opisuję; lemma: opisywać
+token: bo; lemma: ba
+token: tęsknię; lemma: tęsknić
+token: po; lemma: pa
+token: tobie; lemma: to
+token: Panno; lemma: panna
+token: co; lemma: ca
+token: Jasnej; lemma: jasna
+token: bronisz; lemma: bronić
+</code></pre>
+</div>
+</div>
+
+</div>
+</div>
+
+</div>
+<div class="cell border-box-sizing text_cell rendered"><div class="prompt input_prompt uk-text-small uk-text-muted">
+</div>
+<div class="inner_cell">
+<div class="text_cell_render border-box-sizing rendered_html">
+<p>Token attributes:</p>
+
+</div>
+</div>
+</div>
+<div class="cell border-box-sizing code_cell rendered">
+<div class="input">
+<div class="prompt input_prompt uk-text-small uk-text-muted">In&nbsp;[6]:</div>
+<div class="inner_cell">
+    <div class="input_area">
+<div class=" highlight hl-ipython3"><pre><code><span></span><span class="k uk-text-bold">for</span> <span class="n uk-text-emphasis">token</span> <span class="ow uk-text-bold">in</span> <span class="n uk-text-emphasis">doc</span><span class="p uk-text-bold">[:</span><span class="mi uk-text-primary">10</span><span class="p uk-text-bold">]:</span>
+    <span class="nb uk-text-emphasis">print</span><span class="p uk-text-bold">(</span><span class="n uk-text-emphasis">f</span><span class="s2 uk-text-primary">&quot;Token: </span><span class="si">{token}</span><span class="s2 uk-text-primary"> </span><span class="se">\n</span><span class="s2 uk-text-primary"> - alpha: </span><span class="si">{token.is_alpha}</span><span class="s2 uk-text-primary">, </span><span class="se">\n</span><span class="s2 uk-text-primary"> - digit: </span><span class="si">{token.is_digit}</span><span class="s2 uk-text-primary">, </span><span class="se">\n</span><span class="s2 uk-text-primary"> - stopword: </span><span class="si">{token.is_stop}</span><span class="s2 uk-text-primary">&quot;</span><span class="p uk-text-bold">)</span>
+</code></pre></div>
+
+</div>
+</div>
+</div>
+
+<div class="output_wrapper">
+<div class="prompt uk-text-small uk-text-muted">
+
+
+<div class="output_area">
+
+<div class="prompt"></div>
+
+
+<div class="output_subarea output_stream output_stdout output_text">
+<pre><code>Token: 
+ 
+ - alpha: False, 
+ - digit: False, 
+ - stopword: False
+Token: Litwo 
+ - alpha: True, 
+ - digit: False, 
+ - stopword: False
+Token: ! 
+ - alpha: False, 
+ - digit: False, 
+ - stopword: False
+Token: Ojczyzno 
+ - alpha: True, 
+ - digit: False, 
+ - stopword: False
+Token: moja 
+ - alpha: True, 
+ - digit: False, 
+ - stopword: True
+Token: ! 
+ - alpha: False, 
+ - digit: False, 
+ - stopword: False
+Token: ty 
+ - alpha: True, 
+ - digit: False, 
+ - stopword: True
+Token: jesteś 
+ - alpha: True, 
+ - digit: False, 
+ - stopword: False
+Token: jak 
+ - alpha: True, 
+ - digit: False, 
+ - stopword: True
+Token: zdrowie 
+ - alpha: True, 
+ - digit: False, 
+ - stopword: False
+</code></pre>
+</div>
+</div>
+
+</div>
+</div>
+
+</div>
+ 
+

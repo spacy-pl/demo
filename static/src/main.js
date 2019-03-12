@@ -1,4 +1,4 @@
-const pageNames = ['home', 'lemmatizer', 'vectors'];
+const pageNames = ['home', 'components', 'models', 'lemmatizer', 'vectors'];
 let pages = [];
 
 function setActivePage(loadedPages, activePageName) {

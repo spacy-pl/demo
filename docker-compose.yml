@@ -7,4 +7,4 @@ services:
     volumes:
       - ".:/demo"
     working_dir: /demo
-    command: "make install preprocess run-server"
+    command: "make install preprocess nbconvert run-server"

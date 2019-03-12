@@ -1,4 +1,4 @@
-develop: env-warn install-dependencies install preprocess run-server
+develop: env-warn install-dependencies install preprocess nbconvert run-server
 
 env-warn:
 	@echo "Make sure to run all of the scripts in a virtual environemnt"
@@ -18,10 +18,15 @@ preprocess:
 	spacy-pl-preprocess-search
 	spacy-pl-preprocess-similarity
 
+nbconvert:
+	jupyter nbconvert --to html --template basic nbconvert notebooks/*.ipynb
+	mv notebooks/*.html templates/
+	python dev/replace_lines.py
+
 run-server:
 	-export FLASK_ENV=development && export FLASK_APP=app.py && flask run --host=0.0.0.0
 
-deploy: env-warn install-dependencies install preprocess deploy-install deploy-setup deploy-enable-demo deploy-enable-nginx
+deploy: env-warn install-dependencies install preprocess nbconvert deploy-install deploy-setup deploy-enable-demo deploy-enable-nginx
 
 deploy-install:
 	sudo apt update

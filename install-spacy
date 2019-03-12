@@ -1,6 +1,0 @@
-# source this to build and install spacy submodule
-cd spacy_install
-export PYTHONPATH=`pwd`
-pip install -r requirements.txt
-python setup.py build_ext --inplace
-cd ..

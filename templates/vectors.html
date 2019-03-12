@@ -6,22 +6,25 @@
         </h1>
 
         <p class="uk-text-lead">
+            Representing words as vectors for easy analysis and machine learning.
+        </p>
+        <p>
             Vectorization is the process of embedding words (tokens) into
             vectors of floating point numbers. Good vectorizaition allows us to calculate
-            word similarity simply by using euclidean distance between the vectors.
-        </p>
-
-        <p>
+            word similarity simply by measuring <a href="https://en.wikipedia.org/wiki/Euclidean_distance">euclidean distance</a> between the vectors.
             Generating word vectors and adding them to spaCy not only allows us to
             calculate similarities between various polish words, but is also an important step
             on the way to training neural networks - these vectors will serve as their input.
-        </p>
-
-        <p>
+            <br><br>
+            As a proof of concept, we have trained our word vectors using 
+            <a href="https://en.wikipedia.org/wiki/Word2vec">word2vec</a> on <a href="http://nkjp.pl/">NKJP corpus</a>,
+            a proven technique on the most popular polish dataset. We also plan to train a set of models using 
+            <a href="https://fasttext.cc/docs/en/crawl-vectors.html">Facebook's fasttext set of vectors</a>, which is widely regarded as a state-of-the-art solution.
+            <br><br>
             In this demo however, we just want to showcase how calculating word similarity works.
-            Type some polish words below in order to calculate their similarities:
+            Type some polish words below in order to display their similarity scores (0-lowest, 1-highest):
         </p>
-
+        
         <form action="/vectors" id="vectors-similarity" method="post">
             <div class="uk-margin" uk-margin>
                 <input class="uk-input uk-form-width-large"

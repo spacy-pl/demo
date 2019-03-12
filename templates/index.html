@@ -26,24 +26,59 @@
         <ul class="uk-navbar-nav" id="menu-item-list">
             <li class="uk-active" id="home-menu-item">
                 <a href="#home-content">
-                    About the project
+                    Project
                 </a>
             </li>
-            <li class="" id="lemmatizer-menu-item">
-                <a href="#lemmatizer-content">
-                    Lemmatization
-                </a>
+
+            <li>
+                <a href="#">User guide</a>
+                <div class="uk-width-auto uk-navbar-dropdown">
+                    <ul class="uk-width-auto uk-nav uk-navbar-dropdown-nav">
+                        <li class="" id="components-menu-item">
+                            <a href="#components">
+                                Components: <br>
+                                Tokenizer, Lemmatizer, Lexical Attributes
+                            </a>
+                        </li>
+                        <li class="" id="models-menu-item">
+                            <a href="#models">
+                                Models: <br>
+                                Word Vectors, POS Tagger, Dependency Parser, NER
+                            </a>
+                        </li>
+                    </ul>
+                </div>
             </li>
-            <li class="" id="vectors-menu-item">
-                <a href="#vectors-content">
-                    Word vectors
-                </a>
+
+            <li>
+                <a href="#">Demos</a>
+                <div class="uk-width-auto uk-navbar-dropdown">
+                    <ul class="uk-width-auto uk-nav uk-navbar-dropdown-nav">
+                        <li class="" id="lemmatizer-menu-item">
+                            <a href="#lemmatizer-content">
+                                Advanced search
+                            </a>
+                        </li>
+                        <li class="" id="vectors-menu-item">
+                            <a href="#vectors-content">
+                                Word similarity
+                            </a>
+                        </li>
+                    </ul>
+                </div>
             </li>
         </ul>
     </div>
 </nav>
 <div class="uk-section" uk-height-viewport="expand: true" id="content">
     {% include 'home.html' %}
+    <!-- User guide (notebooks: components and models) need to have style wrappers added: -->
+    <div class="uk-container uk-container-small uk-margin-bottom" id="components-content">
+        {% include 'components.html' %}
+    </div>
+    <div class="uk-container uk-container-small uk-margin-bottom" id="models-content">
+        {% include 'models.html' %}
+    </div>
     {% include 'lemmatizer.html' %}
     {% include 'vectors.html' %}
 </div>
@@ -51,7 +86,7 @@
     <div class="uk-container uk-text-center">
         <div class="uk-text-middle">
             <span class="uk-text-bold">
-            © 2018 spacy.pl team<br/>
+            © 2018 spaCy.pl team<br/>
             </span>
             Krzysztof Kowalczyk
             <span class="uk-text-muted">|</span>
@@ -61,9 +96,11 @@
             <span class="uk-text-muted">|</span>
             Stanisław Giziński
         </div>
-        <a href="https://spacy.io">
-            <img src="https://img.shields.io/badge/made%20with%20❤%20and-spaCy-09a3d5.svg" height="20">
-        </a>
+        <div class="uk-text-middle">
+            <a href="https://spacy.io" class="uk-margin-small">
+                <img src="https://img.shields.io/badge/made%20with%20❤%20and-spaCy-09a3d5.svg" height="20">
+            </a>
+        </div>
     </div>
 </div>
 </body>
