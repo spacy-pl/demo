@@ -1,9 +1,9 @@
 server {
     listen 80;
-    server_name *.amazonaws.com;
+    server_name spacypl.sigmoidal.io;
 
     location / {
         include uwsgi_params;
-        uwsgi_pass unix:///home/ubuntu/spacy-pl-demo/spacy-pl-demo.sock;
+        uwsgi_pass unix:///home/ubuntu/demo/spacy-pl-demo.sock;
     }
 }

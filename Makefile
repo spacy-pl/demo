@@ -35,6 +35,7 @@ deploy-install:
 
 deploy-setup:
 	-sudo systemctl disable spacy-pl-demo && sudo systemctl stop spacy-pl-demo
+	./deployment/set-paths.sh
 	sudo cp deployment/spacy-pl-demo.service /etc/systemd/system/
 	-sudo mkdir /etc/nginx/sites-available
 	-sudo mkdir /etc/nginx/sites-enabled

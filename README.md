@@ -54,7 +54,7 @@ To perform full deployment, execute this on a server after cloning the repo:
 ```
 git submodule init  # only for the 1st time
 git submodule update --recursive  # only for the 1st time
-conda create -n spacy-demo  # only for the 1st time
+conda create -n spacy-demo python=3.7.2 pip=18.1  # only for the 1st time
 source activate spacy-demo
 make deploy
 ```
