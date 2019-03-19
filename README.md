@@ -1,5 +1,5 @@
 # spacy-pl-demo
-Demonstration of polish language support in spaCy.
+Demonstration of Polish language support in spaCy.
 
 ## How it works
 Flask application defined in `app.py` assembles `templates` and bundles `static` files 
