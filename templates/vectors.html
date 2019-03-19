@@ -25,18 +25,23 @@
             Type some Polish words below in order to display their similarity scores (0-lowest, 1-highest):
         </p>
         
-        <form action="/vectors" id="vectors-similarity" method="post">
-            <div class="uk-margin" uk-margin>
-                <input class="uk-input uk-form-width-large"
-                       id="vectors-similarity-input"
-                       type="text" name="words" placeholder="">
-                <button class="uk-button uk-button-default"
-                        id="vectors-similarity-submit"
-                        type="submit" form="search" value="Submit">
-                    Calculate similarities
-                </button>
+        <div class="uk-text-center">
+            <div class="uk-padding-large">
+                <progress id="vectors-similarity-progressbar" class="uk-progress" value="0" max="100"></progress>
             </div>
-        </form>
+            <form action="/vectors" id="vectors-similarity" method="post">
+                <div class="uk-margin" uk-margin>
+                    <input class="uk-input uk-form-width-large"
+                           id="vectors-similarity-input"
+                           type="text" name="words" placeholder="">
+                    <button class="uk-button uk-button-default"
+                            id="vectors-similarity-submit"
+                            type="submit" form="search" value="Submit">
+                        Calculate similarities
+                    </button>
+                </div>
+            </form>
+        </div>
 
         <div class="uk-align-center">
             <div class="uk-card uk-card-default uk-child-width-1-1@s uk-grid-small">

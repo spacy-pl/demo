@@ -13,7 +13,29 @@ function setActivePage(loadedPages, activePageName) {
     });
 }
 
+function smoothProgressbarIncrement(progressBar) {
+    setTimeout(() => {
+        progressBar.value += (90-progressBar.value) / 30;
+    }, 200);
+}
+
+function smoothProgressbarComplete(progressBar) {
+    setTimeout(() => {
+        progressBar.value = 100;
+    }, 200);
+    setTimeout(() => {
+        progressBar.value = 0;
+    }, 3200);
+}
+
 function searchHandler(inputElement, outputElement) {
+    // set up progressbar animation
+    const progressBar = document.getElementById('lemmatizer-search-progressbar')
+    progressBar.value = 0;
+    let timer = setInterval(() => {
+        smoothProgressbarIncrement(progressBar);
+    }, 50);
+    // query search endpoint
     axios.post('/search-demo', {
         query: inputElement.value
     }).then(response => {
@@ -28,8 +50,12 @@ function searchHandler(inputElement, outputElement) {
                 return parsedText
             }
         }).join('');  // tokens already contain whitespace
+        // stop progressbar animation
+        clearInterval(timer);
+        smoothProgressbarComplete(progressBar);
     }).catch(error => {
         console.log(error);
+        clearInterval(timer);
     });
 }
 
@@ -42,6 +68,13 @@ function parseTableRow(rowItemsAsList, itemElement='td', itemsClasses='', firstI
 }
 
 function similarityHandler(inputElement, outputElement) {
+    // set up progressbar animation
+    const progressBar = document.getElementById('vectors-similarity-progressbar')
+    progressBar.value = 0;
+    let timer = setInterval(() => {
+        smoothProgressbarIncrement(progressBar);
+    }, 50);
+    // query similarity endpoint
     axios.post('/similarity-demo', {
         'words': inputElement.value
     }).then(response => {
@@ -54,33 +87,46 @@ function similarityHandler(inputElement, outputElement) {
             ${headers}
             ${tableData}
         `;
+        // stop progressbar animation
+        clearInterval(timer);
+        smoothProgressbarComplete(progressBar);
     }).catch(error => {
         console.log(error);
+        clearInterval(timer);
     });
 }
 
-function addDemoEventListener(triggerFormId, handlerFunction, inputElementId, outputElementId) {
+function addDemoEventListener(triggers, handlerFunction, inputElementId, outputElementId) {
     const inputEl = document.getElementById(inputElementId);
     const outputEl = document.getElementById(outputElementId);
     const boundHandler = handlerFunction.bind(null, inputEl, outputEl);
-    document.getElementById(triggerFormId).addEventListener('click', e => {
-        e.preventDefault();
-        boundHandler();
-        return false;
+    triggers.forEach(triggerData => {
+        document.getElementById(triggerData.elementId).addEventListener(triggerData.eventName, e => {
+            e.preventDefault();
+            boundHandler();
+            return false;
+        });
     });
     boundHandler();  // execute handler for the 1st time on registration
 }
 
 function addDemoEventListenerWithDefaulNaming(demoEventName, handler) {
     return addDemoEventListener(
-        `${demoEventName}-submit`,
+        [{
+            elementId: `${demoEventName}-submit`,
+            eventName: 'click'
+        },
+        {
+            elementId: `${demoEventName}`,
+            eventName: 'submit'
+        }],
         handler,
         `${demoEventName}-input`,
         `${demoEventName}-output`
     );
 }
 
-document.addEventListener('DOMContentLoaded', () => {
+UIkit.util.ready(() => {
     console.log("setting up application...");
     // get all pages' menu items and content divs
     pages = pageNames.map(page => {
