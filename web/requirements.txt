@@ -1,0 +1,7 @@
+Flask
+Flask-Assets==0.12
+cssmin==0.2.0
+jsmin==2.2.2
+redis
+requests
+nbconvert

@@ -1,0 +1,125 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta name="viewport" content="height=device-height, initial-scale=1.0">
+
+    <!-- OpenGraph tags for sharing preview -->
+    <meta property="og:url"
+          content="http://spacypl.sigmoidal.io" />
+    <meta property="og:type"
+          content="website" />
+    <meta property="og:title"
+          content="spaCy.pl" />
+    <meta property="og:description"
+          content="Developing tools for complete Polish language support in spaCy." />
+    <meta property="og:image"
+          content="{{ url_for('static', filename='png/hero.jpg') }}" />
+
+    <title>
+        spaCy.pl
+    </title>
+
+    {% assets "css" %}
+        <link rel="stylesheet" href="{{ ASSET_URL }}"/>
+    {% endassets %}
+
+    {% assets "js" %}
+        <script src="{{ ASSET_URL }}"></script>
+    {% endassets %}
+</head>
+<body>
+<nav class="uk-navbar-container" id="nav" uk-navbar>
+    <div class="uk-navbar-left">
+        <a class="uk-navbar-item uk-logo" href="#home" id="navbar-logo">
+            spaCy.pl
+        </a>
+        <ul class="uk-navbar-nav" id="menu-item-list">
+            <li class="uk-active" id="home-menu-item">
+                <a href="#home">
+                    Project
+                </a>
+            </li>
+
+            <li>
+                <a href="#">User guide</a>
+                <div class="uk-width-auto uk-navbar-dropdown">
+                    <ul class="uk-width-auto uk-nav uk-navbar-dropdown-nav">
+                        <li class="" id="components-menu-item">
+                            <a href="#components">
+                                Components: <br>
+                                Tokenizer, Lemmatizer, Lexical Attributes
+                            </a>
+                        </li>
+                        <li class="" id="models-menu-item">
+                            <a href="#models">
+                                Models: <br>
+                                Word Vectors, POS Tagger, Dependency Parser, NER
+                            </a>
+                        </li>
+                    </ul>
+                </div>
+            </li>
+
+            <li>
+                <a href="#">Demos</a>
+                <div class="uk-width-auto uk-navbar-dropdown">
+                    <ul class="uk-width-auto uk-nav uk-navbar-dropdown-nav">
+                        <!-- <li class="" id="lemmatizer-menu-item">
+                            <a href="#lemmatizer">
+                                Advanced search
+                            </a>
+                        </li>
+                        <li class="" id="vectors-menu-item">
+                            <a href="#vectors">
+                                Word similarity
+                            </a>
+                        </li> -->
+                        <li class="" id="wordcloud-menu-item">
+                            <a href="#wordcloud">
+                                Entity attribute search
+                            </a>
+                        </li>
+                    </ul>
+                </div>
+            </li>
+        </ul>
+    </div>
+</nav>
+<div class="uk-section uk-padding-small uk-container uk-container-large"
+     uk-height-viewport="expand: true"
+     id="content">
+    {% include 'home.html' %}
+    <!-- User guide (notebooks: components and models) need to have style wrappers added: -->
+    <div class="uk-container uk-container-small uk-margin-bottom" id="components">
+        {% include 'components.html' %}
+    </div>
+    <div class="uk-container uk-container-small uk-margin-bottom" id="models">
+        {% include 'models.html' %}
+    </div>
+    {% include 'wordcloud.html' %}
+</div>
+<div class="uk-section uk-section-muted uk-height-max-small uk-padding" id="footer">
+    <div class="uk-container uk-text-center">
+        <div class="uk-text-middle">
+            <span class="uk-text-bold">
+            © 2018 spaCy.pl team<br/>
+            </span>
+            Krzysztof Kowalczyk
+            <span class="uk-text-muted">|</span>
+            Mateusz Olko
+            <span class="uk-text-muted">|</span>
+            Piotr Książek
+            <span class="uk-text-muted">|</span>
+            Stanisław Giziński
+        </div>
+        <div class="uk-text-middle">
+            <a href="https://spacy.io" class="uk-margin-small">
+                <img src="https://img.shields.io/badge/made%20with%20❤%20and-spaCy-09a3d5.svg" height="20">
+            </a>
+        </div>
+    </div>
+</div>
+</body>
+</html>

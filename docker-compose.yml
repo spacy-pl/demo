@@ -1,10 +1,35 @@
-version: '2'
+version: "3"
 services:
-  demo:
-    build: .
+  web_app:
+    container_name: "web"
+    build:
+      context: ${USERS_SERVICE_BASE_PATH}/web
+      dockerfile: Dockerfile
     ports:
-      - "5000:5000"
+     - "${USERS_SERVICE_PORT}:5000"
+    command: "flask run -h 0.0.0.0"
+    restart: "on-failure"
     volumes:
-      - ".:/demo"
-    working_dir: /demo
-    command: "make install preprocess nbconvert run-server"
+      - "./web/static/src:/code/static/src"
+      - "./web/templates:/code/templates"
+    depends_on:
+      - "ner_storage"
+
+  ner_storage:
+    image: redis
+    ports:
+      - "${USERS_SERVICE_REDIS_PORT}:6379"
+    volumes:
+      - redis_store:/data
+
+  processor:
+    image: "python"
+    depends_on:
+      - "ner_storage"
+    build:
+      context: ./process
+      dockerfile: Dockerfile
+    command: "python process.py"
+
+volumes:
+  redis_store:
