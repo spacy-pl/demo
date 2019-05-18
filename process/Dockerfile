@@ -1,5 +1,5 @@
 FROM python:3.5
-ARG MODEL_URL="https://storage.googleapis.com/spacy-pl-public-models/pl_model-0.1.0.tar.gz"
+ARG MODEL_URL="https://storage.googleapis.com/spacy-pl-public-models/pl_model-0.2.0.tar.gz"
 
 ENV PYTHONUNBUFFERED 1
 WORKDIR /code

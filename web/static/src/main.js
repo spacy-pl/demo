@@ -3,11 +3,11 @@
 function activate (pageData) {
   pageData.menuElement.classList.add('uk-active')
   pageData.pageElement.classList.remove('uk-hidden')
-  location.hash = pageData.pageElement.id
+  document.location.hash = pageData.pageElement.id
+  document.body.scrollTop = 0
 }
 
 function deactivate (pageData) {
-
   pageData.menuElement.classList.remove('uk-active')
   pageData.pageElement.classList.add('uk-hidden')
 }

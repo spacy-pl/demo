@@ -62,8 +62,14 @@ def get_NER(ner_name):
     adj_freq=r.hgetall('ner_stats:{}'.format(ner_name))
     if adj_freq == {}:
         return abort(404)
-    #adj_freq['name'] = ner_name
-
+    response=dict()
+    for term in adj_freq:
+        term_sents = r.lrange('sents:{}:{}'.format(ner_name, term), 0, -1)
+        term_dict = {
+            'count': adj_freq[term],
+            'sents': term_sents
+        }
+        response[term]=term_dict
     return jsonify(adj_freq), 200
 
 
