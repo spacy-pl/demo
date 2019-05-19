@@ -64,14 +64,18 @@ if r.lrange('ners', 0, -1) == []:
     
     ents = sorted(ents, key=lambda ent: len(stats[ent]))
     print("Storing entities and term counts in Redis...")
+    pipe = r.pipeline()
     for ner in tqdm(ents):
-        r.lpush('ners', ner)
+        pipe.lpush('ners', ner)
         for word, count in stats[ner]:
-            r.hset('ner_stats:{}'.format(ner), word, count)
-            
+            pipe.hset('ner_stats:{}'.format(ner), word, count)
+    pipe.execute()
+
     print("Storing sentences in Redis...")
+    pipe = r.pipeline()
     for key, value in tqdm(entities_terms_sentence_lists.items()):
-        r.lpush('sents:{}:{}'.format(key[0], key[1]), *value)
+        pipe.lpush('sents:{}:{}'.format(key[0], key[1]), *value)
+    pipe.execute()
 
     print("Data processed!")
 else:
