@@ -13,11 +13,11 @@ let minAdjFontSize = 16
 function parseAndScale (responseData) {
   let adjectives = Object.keys(responseData)
   const maxAll = adjectives => {
-    return adjectives.map(adj => [ adj, maxAdjFontSize ])
+    return adjectives.map(adj => [ adj, maxAdjFontSize, responseData[adj]['sents'] ])
   }
   if (adjectives.length <= 1) return maxAll(adjectives)
 
-  let counts = adjectives.map(adj => parseInt(responseData[adj]))
+  let counts = adjectives.map(adj => parseInt(responseData[adj]['count']))
   let minCount = Math.min(...counts)
   let maxCount = Math.max(...counts)
   if (minCount === maxCount) return maxAll(adjectives)
@@ -26,7 +26,7 @@ function parseAndScale (responseData) {
   minAdjFontSize = Math.max(minAdjFontSize, Math.min(...wordCloudSize) / 8)
   let scale = (maxAdjFontSize - minAdjFontSize) / (maxCount - minCount)
   const scaleCount = realCount => scale * realCount + minAdjFontSize - scale * minCount
-  return adjectives.map(adj => [ adj, scaleCount(responseData[adj]) ])
+  return adjectives.map(adj => [ adj, scaleCount(responseData[adj]['count']), responseData[adj]['sents'] ])
 }
 
 function wordcloudHandler (inputElement, _) {
