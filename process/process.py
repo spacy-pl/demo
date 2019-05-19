@@ -16,7 +16,9 @@ def generate_terms_dict(docs):
     terms = dict()
     entities_terms_sentence_lists = dict()
     termcount = 0
-    for doc in tqdm(docs):
+    for i, doc in enumerate(docs):
+        if i % (len(docs)//10) == 0:
+            print(i/len(docs)*100, "% processed.")
         ents = doc.ents
         for ent in ents:
             if ent.label_ in LABELS:
@@ -32,9 +34,9 @@ def generate_terms_dict(docs):
                         terms[normalized_ent].append(token.lemma_)
                         l = entities_terms_sentence_lists.get((ent.lemma_,token.lemma_))
                         if l:
-                            entities_terms_sentence_lists[(ent.lemma_,token.lemma_)].append(sentence.text)
+                            entities_terms_sentence_lists[(ent.lemma_, token.lemma_)].append(sentence.text)
                         else:
-                            entities_terms_sentence_lists[(ent.lemma_,token.lemma_)]=[sentence.text]
+                            entities_terms_sentence_lists[(ent.lemma_, token.lemma_)]=[sentence.text]
 
     print("Extracted " + str(termcount) + " terms.")
     final_terms=dict()
