@@ -14,8 +14,9 @@ r = redis.Redis(host='ner_storage', port=6379, db=0, decode_responses=True)
 def generate_terms_dict(docs):
     all_entities = set()
     terms = dict()
-    termcount=0
-    for doc in docs:
+    entities_terms_sentence_lists = dict()
+    termcount = 0
+    for doc in tqdm(docs):
         ents = doc.ents
         for ent in ents:
             if ent.label_ in LABELS:
@@ -28,8 +29,12 @@ def generate_terms_dict(docs):
                 for token in sentence:
                     if token.pos_ == CHOOSEN_POS:
                         termcount += 1
-                        terms[normalized_ent].append(token.lemma_)        
-                        r.lpush('sents:{}:{}'.format(ent.lemma_, token.lemma_), sentence.text)
+                        terms[normalized_ent].append(token.lemma_)
+                        l = entities_terms_sentence_lists.get((ent.lemma_,token.lemma_))
+                        if l:
+                            entities_terms_sentence_lists[(ent.lemma_,token.lemma_)].append(sentence.text)
+                        else:
+                            entities_terms_sentence_lists[(ent.lemma_,token.lemma_)]=[sentence.text]
 
     print("Extracted " + str(termcount) + " terms.")
     final_terms=dict()
@@ -40,16 +45,17 @@ def generate_terms_dict(docs):
         else:
             all_entities.remove(ent)
             print("Passing entity:", ent, ", not enough terms ({})".format(len(set(terms[ent]))))
-    return all_entities, final_terms
+    return all_entities, final_terms, entities_terms_sentence_lists
 
 arts = json.load(open('articles.json'))
 
 if r.lrange('ners', 0, -1) == []:
-    print("Processing data...")
+    print("Preprocessing text data...")
     nlp = spacy.load(MODEL_PATH)
-
     docs = [nlp(art) for art in tqdm(arts) if len(art) != 0]
-    ents, terms = generate_terms_dict(docs)
+    print("Processing docs...")
+
+    ents, terms, entities_terms_sentence_lists = generate_terms_dict(docs)
 
     stats = dict()
 
@@ -57,11 +63,16 @@ if r.lrange('ners', 0, -1) == []:
         stats[ent] = FreqDist(terms[ent]).most_common()
     
     ents = sorted(ents, key=lambda ent: len(stats[ent]))
-
+    print("Storing entities and term counts in Redis...")
     for ner in tqdm(ents):
         r.lpush('ners', ner)
         for word, count in stats[ner]:
             r.hset('ner_stats:{}'.format(ner), word, count)
+            
+    print("Storing sentences in Redis...")
+    for key, value in tqdm(entities_terms_sentence_lists.items()):
+        r.lpush('sents:{}:{}'.format(key[0], key[1]), *value)
+
     print("Data processed!")
 else:
     print("Data already in cache")
