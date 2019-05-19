@@ -70,7 +70,7 @@ def get_NER(ner_name):
             'sents': term_sents
         }
         response[term]=term_dict
-    return jsonify(adj_freq), 200
+    return jsonify(response), 200
 
 
 @app.route('/api/NERs', methods=['GET'])
