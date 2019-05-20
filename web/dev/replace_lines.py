@@ -1,7 +1,8 @@
 import re
 import os
 
-template_dir = os.path.join(os.getcwd(), 'templates')
+template_dir = '/app/backend/backend/templates'
+#template_dir = os.path.join(os.getcwd(), 'templates')
 NOTEBOOK_HTML_PATHS = [
     os.path.join(template_dir, 'components.html'),
     os.path.join(template_dir, 'models.html'),

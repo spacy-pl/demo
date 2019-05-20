@@ -5,3 +5,4 @@ jsmin==2.2.2
 redis
 requests
 nbconvert
+uwsgi

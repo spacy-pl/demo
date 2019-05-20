@@ -3,8 +3,8 @@ import io
 import os
 import zipfile
 
-
-static_dir = os.path.join(os.getcwd(), 'static')
+static_dir = '/app/backend/backend/static'
+#static_dir = os.path.join(os.getcwd(), 'static')
 
 files = [
     {

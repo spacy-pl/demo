@@ -1,19 +1,16 @@
 version: "3"
 services:
-  web_app:
-    container_name: "web"
+  web:
+    container_name: "demo_web"
     build:
-      context: ${USERS_SERVICE_BASE_PATH}/web
+      context: "./web"
       dockerfile: Dockerfile
-    ports:
-     - "${USERS_SERVICE_PORT}:5000"
-    command: "flask run -h 0.0.0.0"
+    expose:
+      - 8080
     restart: "on-failure"
-    volumes:
-      - "./web/static/src:/code/static/src"
-      - "./web/templates:/code/templates"
     depends_on:
       - "ner_storage"
+    command: "uwsgi --ini /app/uwsgi.ini"
 
   ner_storage:
     image: redis
@@ -30,6 +27,16 @@ services:
       context: ./process
       dockerfile: Dockerfile
     command: "python process.py"
-
+  
+  nginx:
+    build:
+      context: "./nginx"
+      dockerfile: Dockerfile
+    ports:
+      - 9999:80
+    depends_on:
+      - "web"
+      
+      
 volumes:
   redis_store:

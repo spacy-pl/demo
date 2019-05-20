@@ -3,12 +3,16 @@ from flask_assets import Environment, Bundle
 
 import redis
 
+import jinja2
 import json
 import logging
+import os
 
+#tmpl_dir = os.path.join(os.path.dirname(os.path.abspath(__file__)), 'templates')
 
-app = Flask(__name__, static_folder='static')
+app = Flask(__name__, static_folder='/app/backend/backend/static')
 app.url_map.strict_slashes = False
+app.jinja_loader = jinja2.FileSystemLoader('/app/backend/backend/templates')
 
 
 logging.basicConfig(level=logging.DEBUG)
@@ -47,7 +51,6 @@ bundles = {
 assets.register(bundles)
 
 
-#init redis connection here, because of running this script via "flask run"
 r=redis.Redis(host='ner_storage', port=6379, db=0, decode_responses=True)
 
 
