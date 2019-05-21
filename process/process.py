@@ -17,8 +17,8 @@ def generate_terms_dict(docs):
     entities_terms_sentence_lists = dict()
     termcount = 0
     for i, doc in enumerate(docs):
-        if i % (len(docs)//10) == 0:
-            print(i/len(docs)*100, "% processed.")
+        if i % (len(docs)//100) == 0:
+            print(i/len(docs)*1000, "% processed.")
         ents = doc.ents
         for ent in ents:
             if ent.label_ in LABELS:

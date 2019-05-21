@@ -33,7 +33,7 @@ services:
       context: "./nginx"
       dockerfile: Dockerfile
     ports:
-      - 9999:80
+      - 80:80
     depends_on:
       - "web"
       
