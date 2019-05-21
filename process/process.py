@@ -20,6 +20,9 @@ def generate_terms_dict(docs):
         if i % (len(docs)//100) == 0:
             print(i/len(docs)*1000, "% processed.")
         ents = doc.ents
+        print("Entities in doc:", len(ents))
+        for sent in doc.sents:
+
         for ent in ents:
             if ent.label_ in LABELS:
                 normalized_ent = ent.lemma_
@@ -34,9 +37,9 @@ def generate_terms_dict(docs):
                         terms[normalized_ent].append(token.lemma_)
                         l = entities_terms_sentence_lists.get((ent.lemma_,token.lemma_))
                         if l:
-                            entities_terms_sentence_lists[(ent.lemma_, token.lemma_)].append(sentence.text)
+                            entities_terms_sentence_lists[(ent.lemma_, token.lemma_)].append(sentence.orth)
                         else:
-                            entities_terms_sentence_lists[(ent.lemma_, token.lemma_)]=[sentence.text]
+                            entities_terms_sentence_lists[(ent.lemma_, token.lemma_)]=[sentence.orth]
 
     print("Extracted " + str(termcount) + " terms.")
     final_terms=dict()
