@@ -31,7 +31,7 @@ def generate_terms_dict(docs):
                     terms[lemmatized_ent]=[]
 
                 sentence = ent.sent
-                s_key = hash(sentence.orth)
+                s_key = hash(sentence.orth_)
                 for token in sentence:
                     if token.pos_ == CHOOSEN_POS:
                         termcount += 1
