@@ -21,8 +21,7 @@ def generate_terms_dict(docs):
             print(i/len(docs)*1000, "% processed.")
         ents = doc.ents
         print("Entities in doc:", len(ents))
-        for sent in doc.sents:
-
+    
         for ent in ents:
             if ent.label_ in LABELS:
                 normalized_ent = ent.lemma_
