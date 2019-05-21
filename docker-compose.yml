@@ -13,7 +13,7 @@ services:
     command: "uwsgi --ini /app/uwsgi.ini"
 
   ner_storage:
-    image: redis
+    build: "./redis"
     ports:
       - "${USERS_SERVICE_REDIS_PORT}:6379"
     volumes:
