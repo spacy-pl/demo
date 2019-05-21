@@ -58,12 +58,10 @@
                         </td>
                         <td class="uk-text-nowrap">
                             <span class="uk-label uk-label-success">Version: Final</span><br>
-                            <span class="uk-label uk-label-danger">Status: Needs bug fixes</span><br>
+                            <span class="uk-label uk-label-success">Status: Done</span><br>
                             <span class="uk-label uk-label-success">Release: Merged</span><br>
                         </td>
                         <td>
-                            Some minor bugs in stop words still require fixing, they will added to out next pull request.
-                            <br>
                             Initial release of attributes was added to spaCy
                             <a href="https://github.com/explosion/spaCy/pull/2974/commits/69ec51a9ac42fc598ca028922b49dfab52c22ba7">
                                 in the pull request with tokenizer
@@ -76,16 +74,16 @@
                             Lemmatization
                         </td>
                         <td class="uk-text-nowrap">
-                            <span class="uk-label uk-label-warning">Version: POC</span><br>
+                            <span class="uk-label uk-label-success">Version: Stable</span><br>
                             <span class="uk-label uk-label-success">Status: Done</span><br>
                             <span class="uk-label uk-label-warning">Release: In progress</span><br>
                         </td>
                         <td>
-                            POC lemmatizer (based on ispell spell-checker rules) has just been implemented and will be added to out next pull request.
-                            <br>
-                            <a href="https://github.com/spacy-pl/spaCy/tree/lemmatizer">
-                                Working branch for our lemmatizer
+                            <a href="https://github.com/explosion/spaCy/pull/3711">
+                                Lemmatizer pull request
                             </a>
+                            is currently under review and should be merged to spaCy soon.
+                            <br>
                         </td>
                     </tr>
                     <tr>
@@ -93,17 +91,17 @@
                             Word vectors
                         </td>
                         <td class="uk-text-nowrap">
-                            <span class="uk-label uk-label-warning">Version: POC</span><br>
+                            <span class="uk-label uk-label-success">Version: Final</span><br>
                             <span class="uk-label uk-label-success">Status: Done</span><br>
-                            <span class="uk-label uk-label-danger">Release: None</span><br>
                         </td>
                         <td>
-                            We currently use word2vec embeddings trained on NKJP corpus.
-                            This is only a proof of concept, because we expect Facebook's fasttext vectors
-                            to be significantly more accurate.
+                            We started by training word2vec and GloVe embeddings on NKJP dataset,
+                            but eventually decided to use
+                            <a href="https://fasttext.cc/docs/en/crawl-vectors.html">
+                                facebook's fasttext vectors
+                            </a>
+                            for Polish.
                             <br>
-                            The vectors will be released as part of a model package
-                            and are currently developed on <a href="https://github.com/spacy-pl/utils">our utils repo</a>
                         </td>
                     </tr>
                     <tr>
@@ -111,16 +109,19 @@
                             POS Tagger
                         </td>
                         <td class="uk-text-nowrap">
-                            <span class="uk-label uk-label-warning">Version: POC</span><br>
+                            <span class="uk-label uk-label-success">Version: Stable</span><br>
                             <span class="uk-label uk-label-success">Status: Done</span><br>
-                            <span class="uk-label uk-label-danger">Release: None</span><br>
+                            <span class="uk-label uk-label-success">Release: Done</span><br>
                         </td>
                         <td>
-                            Initial POS Tagger with 89% tag accuracy. We still need to tune its hyperparameters and find
-                            the optimal way of merging some of the original NKJP tags for better balance.
+                            Current version of POS Tagger was trained on NKJP dataset,
+                            with labels reduced to match the UD POS tagset, using fasttext word vectors.
                             <br>
-                            POS Tagger will be released as part of a model package
-                            and is currently developed on <a href="https://github.com/spacy-pl/utils">our utils repo</a>
+                            POS Tag Accuracy: <span class="uk-text-bold">97.87%</span>
+                            <br>
+                            To install pipeline (POS Tagger, Dependency Parser, NER):
+                            <br>
+                            <pre><code>pip install https://storage.googleapis.com/spacy-pl-public-models/pl_model-0.3.0.tar.gz</code></pre>
                         </td>
                     </tr>
                     <tr>
@@ -128,16 +129,20 @@
                             Dependency Parser
                         </td>
                         <td class="uk-text-nowrap">
-                            <span class="uk-label uk-label-warning">Version: POC</span><br>
+                            <span class="uk-label uk-label-success">Version: Stable</span><br>
                             <span class="uk-label uk-label-success">Status: Done</span><br>
-                            <span class="uk-label uk-label-danger">Release: None</span><br>
+                            <span class="uk-label uk-label-success">Release: Done</span><br>
                         </td>
                         <td>
-                            Reasonably good initial model with validation metrics reaching 91% UAS and 86% LAS.
-                            Similarily to POS Tagger, it still needs to be tuned before release.
+                            Trained on LFG dataset, using fasttext word vectors.
                             <br>
-                            Dependency parser will be released as part of a model package
-                            and is currently developed on <a href="https://github.com/spacy-pl/utils">our utils repo</a>
+                            Validation metrics:
+                            <span class="uk-text-bold">UAS = 93.95%</span>,
+                            <span class="uk-text-bold">LAS = 89.96%</span>
+                            <br>
+                            To install pipeline (POS Tagger, Dependency Parser, NER):
+                            <br>
+                            <pre><code>pip install https://storage.googleapis.com/spacy-pl-public-models/pl_model-0.3.0.tar.gz</code></pre>
                         </td>
                     </tr>
                     <tr>
@@ -147,13 +152,16 @@
                         <td class="uk-text-nowrap">
                             <span class="uk-label uk-label-warning">Version: POC</span><br>
                             <span class="uk-label uk-label-warning">Status: In progress</span><br>
-                            <span class="uk-label uk-label-danger">Release: None</span><br>
+                            <span class="uk-label uk-label-success">Release: Done</span><br>
                         </td>
                         <td>
-                            Work in progress, this is the last model we have to train before releasing the complete package.
+                            NER is trained on Wrocław Dataset with reduced number of labels, using fasttext vectors.
+                            POC version is available in the recently released pipeline,
+                            and the new improved version is coming soon.
                             <br>
-                            NER will be released as part of a model package
-                            and is currently developed on <a href="https://github.com/spacy-pl/utils">our utils repo</a>
+                            To install pipeline (POS Tagger, Dependency Parser, NER):
+                            <br>
+                            <pre><code>pip install https://storage.googleapis.com/spacy-pl-public-models/pl_model-0.3.0.tar.gz</code></pre>
                         </td>
                     </tr>
                 </tbody>
@@ -185,6 +193,10 @@
                                         Stanisław Giziński
                                     </h3>
                                     <p class="uk-text-meta uk-margin-remove-top">
+                                        <span class="uk-text-uppercase">
+                                                Team Leader, NLP Specialist
+                                        </span>
+                                        <br>
                                         <a href="https://www.linkedin.com/in/stanis%C5%82aw-gizi%C5%84ski/"
                                            class="uk-padding-small" target="_blank">LinkedIn</a>
                                         <a href="https://github.com/Gizzio/"
@@ -193,12 +205,15 @@
                                 </div>
                             </div>
                         </div>
-                        <div class="uk-card-body">
-                            <p>
-                                Team leader, has the most extensive NLP background.
-                                Responsible mainly for integrating various data sources into
-                                managable pipelines and making sure our research is done properly.
-                            </p>
+                        <div class="uk-card-body uk-padding-small">
+                            <ul class="uk-list uk-text-small">
+                                <li>Existing NLP tools research & testing</li>
+                                <li>Dataset analysis & selection</li>
+                                <li>Data format integration</li>
+                                <li>Data version control setup & management</li>
+                                <li>Project planning</li>
+                                <li>Parser training</li>
+                            </ul>
                         </div>
                     </div>
                 </div>
@@ -219,6 +234,10 @@
                                         Krzysztof Kowalczyk
                                     </h3>
                                     <p class="uk-text-meta uk-margin-remove-top">
+                                        <span class="uk-text-uppercase">
+                                            Presentation & QA Specialist
+                                        </span>
+                                        <br>
                                         <a href="https://www.linkedin.com/in/kowaalczyk/"
                                            class="uk-padding-small" target="_blank">LinkedIn</a>
                                         <a href="https://github.com/kowaalczyk/"
@@ -229,12 +248,15 @@
                                 </div>
                             </div>
                         </div>
-                        <div class="uk-card-body">
-                            <p>
-                                Presentation and QA specialist, makes sure that our code
-                                is well-written and works as intended by reviewing and testing it.
-                                He has also created this demo as well as other project presentations.
-                            </p>
+                        <div class="uk-card-body uk-padding-small">
+                            <ul class="uk-list uk-text-small">
+                                <li>Workflow coordination</li>
+                                <li>Communication with spaCy maintainers</li>
+                                <li>Improved training tools implementation</li>
+                                <li>Code reviews & testing</li>
+                                <li>Demo website design & implementation</li>
+                                <li>Project presentations</li>
+                            </ul>
                         </div>
                     </div>
                 </div>
@@ -255,18 +277,24 @@
                                         Piotr Ksiązek
                                     </h3>
                                     <p class="uk-text-meta uk-margin-remove-top">
-
+                                        <span class="uk-text-uppercase">
+                                            Developer & researcher
+                                        </span>
+                                        <br>
+                                        <!-- TODO: Links -->
                                     </p>
                                 </div>
                             </div>
                         </div>
-                        <div class="uk-card-body">
-                            <p>
-                                Developer and researcher, makes sure our data preprocessing is
-                                as efficient as possible. He has also completed
-                                a statistical analysis of NKJP corpus, that allowed us
-                                to create an optimal mapping between NKJP tags and UD POS.
-                            </p>
+                        <div class="uk-card-body uk-padding-small">
+                            <ul class="uk-list uk-text-small">
+                                <li>Statistical analysis of NKJP Corpus</li>
+                                <li>Tokenizer research & implementation</li>
+                                <li>Trie-based lemmatizer implementation</li>
+                                <li>Tagsetconversion implementation</li>
+                                <li>Vocab data generation</li>
+                                <li>NER training</li>
+                            </ul>
                         </div>
                     </div>
                 </div>
@@ -287,6 +315,10 @@
                                         Mateusz Olko
                                     </h3>
                                     <p class="uk-text-meta uk-margin-remove-top">
+                                        <span class="uk-text-uppercase">
+                                            Developer & researcher
+                                        </span>
+                                        <br>
                                         <a href="https://www.linkedin.com/in/mateusz-olko-9aa3b2167/"
                                            class="uk-padding-small" target="_blank">LinkedIn</a>
                                         <a href="https://github.com/MateuszOlko"
@@ -295,12 +327,15 @@
                                 </div>
                             </div>
                         </div>
-                        <div class="uk-card-body">
-                            <p>
-                                Developer and researcher that initially contacted us with Sigmoidal.
-                                Completed an extensive research of rule-based lemmatizer implementations,
-                                currently works on training and fine-tuning the models and word vectors.
-                            </p>
+                        <div class="uk-card-body uk-padding-small">
+                            <ul class="uk-list uk-text-small">
+                                <li>Communication with project principal</li>
+                                <li>Lemmatization rules research & selection</li>
+                                <li>Tagset selection</li>
+                                <li>Tagger training</li>
+                                <li>Integration of fasttextvectors into all models</li>
+                                <li>Model testing</li>
+                            </ul>
                         </div>
                     </div>
                 </div>

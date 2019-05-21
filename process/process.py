@@ -21,7 +21,7 @@ def generate_terms_dict(docs):
             print(i/len(docs)*1000, "% processed.")
         ents = doc.ents
         print("Entities in doc:", len(ents))
-    
+
         for ent in ents:
             if ent.label_ in LABELS:
                 lemmatized_ent = ent.lemma_
@@ -68,7 +68,7 @@ if r.lrange('ners', 0, -1) == []:
 
     for ent in terms:
         stats[ent] = FreqDist(terms[ent]).most_common()
-    
+
     ents = sorted(ents, key=lambda ent: len(stats[ent]))
     print("Storing entities and term counts in Redis...")
     pipe = r.pipeline()

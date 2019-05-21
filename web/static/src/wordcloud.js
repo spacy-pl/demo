@@ -7,26 +7,41 @@ let wordCloud
 
 // updated dynamically when viewport changes:
 let defaultMaxItemsInList = 42
-let maxAdjFontSize = 128
+let maxDisplayAdjectives = 128
+let maxAdjFontSize = 96
 let minAdjFontSize = 16
 
 function parseAndScale (responseData) {
-  let adjectives = Object.keys(responseData)
+  const compareCounts = (a, b) => b[1] - a[1]
+  const saturate = adj => [ adj[0], Math.pow(adj[1], 2.137), adj[2] ]
+  maxDisplayAdjectives = Math.floor(maxDisplayAdjectives * Math.max(...wordCloudSize) / 640)
+  let adjectives = Object.keys(responseData).map(key => {
+    return [
+      key,
+      parseInt(responseData[key]['count']),
+      responseData[key]['sents']
+    ]
+  }).sort(compareCounts).slice(0, maxDisplayAdjectives)
+  adjectives = adjectives.map(saturate)
+
   const maxAll = adjectives => {
-    return adjectives.map(adj => [ adj, maxAdjFontSize, responseData[adj]['sents'] ])
+    return adjectives.map(adj => {
+      adj[1] = maxAdjFontSize
+      return adj
+    })
   }
   if (adjectives.length <= 1) return maxAll(adjectives)
 
-  let counts = adjectives.map(adj => parseInt(responseData[adj]['count']))
+  let counts = adjectives.map(adj => adj[1])
   let minCount = Math.min(...counts)
   let maxCount = Math.max(...counts)
   if (minCount === maxCount) return maxAll(adjectives)
 
-  maxAdjFontSize = Math.min(maxAdjFontSize, Math.max(...wordCloudSize) / 8)
-  minAdjFontSize = Math.max(minAdjFontSize, Math.min(...wordCloudSize) / 8)
+  maxAdjFontSize = Math.floor(maxAdjFontSize * Math.max(...wordCloudSize) / 640)
+  minAdjFontSize = Math.floor(minAdjFontSize * Math.min(...wordCloudSize) / 480)
   let scale = (maxAdjFontSize - minAdjFontSize) / (maxCount - minCount)
-  const scaleCount = realCount => scale * realCount + minAdjFontSize - scale * minCount
-  return adjectives.map(adj => [ adj, scaleCount(responseData[adj]['count']), responseData[adj]['sents'] ])
+  const scaleCount = adj => [ adj[0], scale * adj[1] - scale * minCount + minAdjFontSize, adj[2] ]
+  return adjectives.map(scaleCount)
 }
 
 function wordcloudHandler (inputElement, _) {
@@ -44,7 +59,13 @@ function wordcloudHandler (inputElement, _) {
     // let wordFreqs = Object.keys(response.data).map(word => [word, Number(response.data[word])])
     wordCloud = WordCloud(wordCloudElement, {
       list: parseAndScale(response.data),
-      click: (item, dimension, event) => { console.log(item, dimension) } // TODO: Display part of article
+      fontFamily: "'Baloo Bhai', cursive",
+      weightFactor: 1,
+      rotateRatio: 0.125,
+      rotationSteps: 16,
+      click: (item, dimension, event) => {
+        console.log(item, dimension)
+      } // TODO: Display part of article
     })
     clearInterval(timer)
     smoothProgressbarComplete(progressBar)
@@ -123,7 +144,7 @@ function fitToContainer (canvas) {
   canvas.height = canvas.offsetHeight
 }
 
-function maxListLength () {
+function computeMaxListSize () {
   let minDim = Math.floor(Math.min(
     document.documentElement.clientHeight,
     document.documentElement.clientWidth
@@ -136,7 +157,7 @@ function maxListLength () {
 }
 
 function setupWordcloud () {
-  defaultMaxItemsInList = maxListLength()
+  defaultMaxItemsInList = computeMaxListSize()
   fitToContainer(document.getElementById('wordcloud-content'))
   setNerAutocomplete('ner-wordcloud')
   addDemoEventListenerWithDefaulNaming('ner-wordcloud', wordcloudHandler)
