@@ -18,30 +18,29 @@ def generate_terms_dict(docs):
     termcount = 0
     for i, doc in enumerate(docs):
         if i % (len(docs)//100) == 0:
-            print(i/len(docs)*1000, "% processed.")
+            print(i/len(docs)*100, "% processed.")
         ents = doc.ents
         print("Entities in doc:", len(ents))
 
         for ent in ents:
             if ent.label_ in LABELS:
-                lemmatized_ent = ent.lemma_
-                normalized_ent = ent.lemma_
-                if normalized_ent not in all_entities:
-                    all_entities.add(lemmatized_ent)
-                    terms[lemmatized_ent]=[]
+                entity_orth = ent.orth_
+                if entity_orth not in all_entities:
+                    all_entities.add(entity_orth)
+                    terms[entity_orth]=[]
 
                 sentence = ent.sent
-                s_key = hash(sentence.orth_)
+                sentence_key = hash(sentence.orth_)
                 for token in sentence:
-                    if token.pos_ == CHOOSEN_POS:
+                    if token.pos_ == CHOOSEN_POS and not token.is_stop:
                         termcount += 1
                         lemmatized_term = token.lemma_
-                        terms[lemmatized_ent].append(token.lemma_)
-                        l = entities_terms_sentence_lists.get((lemmatized_ent, lemmatized_term))
+                        terms[entity_orth].append(token.lemma_)
+                        l = entities_terms_sentence_lists.get((entity_orth, lemmatized_term))
                         if l:
-                            entities_terms_sentence_lists[(lemmatized_ent, lemmatized_term)].append(s_key)
+                            entities_terms_sentence_lists[(entity_orth, lemmatized_term)].append(sentence_key)
                         else:
-                            entities_terms_sentence_lists[(lemmatized_ent, lemmatized_term)]=[s_key]
+                            entities_terms_sentence_lists[(entity_orth, lemmatized_term)]=[sentence_key]
 
     print("Extracted " + str(termcount) + " terms.")
     final_terms=dict()
@@ -53,6 +52,16 @@ def generate_terms_dict(docs):
             all_entities.remove(ent)
             print("Passing entity:", ent, ", not enough terms ({})".format(len(set(terms[ent]))))
     return all_entities, final_terms, entities_terms_sentence_lists
+
+def push_sentence_dict(docs):
+    pipe = r.pipeline()
+    for doc in docs:
+        for sentence in doc.sents:
+            sent_value = sentence.orth_
+            sent_key = hash(sent_key)
+            pipe.hset('sentences', sent_key, sent_value)
+    pipe.execute()
+            
 
 arts = json.load(open('articles.json'))
 
@@ -78,11 +87,14 @@ if r.lrange('ners', 0, -1) == []:
             pipe.hset('ner_stats:{}'.format(ner), word, count)
     pipe.execute()
 
-    print("Storing sentences in Redis...")
+    print("Storing references to sentences in Redis...")
     pipe = r.pipeline()
     for key, value in tqdm(entities_terms_sentence_lists.items()):
         pipe.lpush('sents:{}:{}'.format(key[0], key[1]), *value)
     pipe.execute()
+
+    print("Storing sentence dict in Redis...")
+    push_sentence_dict(docs)
 
     print("Data processed!")
 else:

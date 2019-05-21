@@ -67,7 +67,13 @@ def get_NER(ner_name):
         return abort(404)
     response=dict()
     for term in adj_freq:
-        term_sents = r.lrange('sents:{}:{}'.format(ner_name, term), 0, -1)
+        term_sents_keys = r.lrange('sents:{}:{}'.format(ner_name, term), 0, -1)
+        term_sents = []
+        for sent_key in term_sents_keys:
+            #TODO: fetch all sentences in one batch
+            sentence = r.hget('sentences', sent_key)
+            term_sents.append(sentence)
+
         term_dict = {
             'count': adj_freq[term],
             'sents': term_sents
