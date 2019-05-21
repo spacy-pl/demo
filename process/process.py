@@ -24,21 +24,24 @@ def generate_terms_dict(docs):
     
         for ent in ents:
             if ent.label_ in LABELS:
+                lemmatized_ent = ent.lemma_
                 normalized_ent = ent.lemma_
                 if normalized_ent not in all_entities:
-                    all_entities.add(normalized_ent)
-                    terms[normalized_ent]=[]
+                    all_entities.add(lemmatized_ent)
+                    terms[lemmatized_ent]=[]
 
                 sentence = ent.sent
+                s_key = hash(sentence.orth)
                 for token in sentence:
                     if token.pos_ == CHOOSEN_POS:
                         termcount += 1
-                        terms[normalized_ent].append(token.lemma_)
-                        l = entities_terms_sentence_lists.get((ent.lemma_,token.lemma_))
+                        lemmatized_term = token.lemma_
+                        terms[lemmatized_ent].append(token.lemma_)
+                        l = entities_terms_sentence_lists.get((lemmatized_ent, lemmatized_term))
                         if l:
-                            entities_terms_sentence_lists[(ent.lemma_, token.lemma_)].append(sentence.orth)
+                            entities_terms_sentence_lists[(lemmatized_ent, lemmatized_term)].append(s_key)
                         else:
-                            entities_terms_sentence_lists[(ent.lemma_, token.lemma_)]=[sentence.orth]
+                            entities_terms_sentence_lists[(lemmatized_ent, lemmatized_term)]=[s_key]
 
     print("Extracted " + str(termcount) + " terms.")
     final_terms=dict()
