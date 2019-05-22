@@ -58,7 +58,7 @@ def push_sentence_dict(docs):
     for doc in docs:
         for sentence in doc.sents:
             sent_value = sentence.orth_
-            sent_key = hash(sent_key)
+            sent_key = hash(sent_value)
             pipe.hset('sentences', sent_key, sent_value)
     pipe.execute()
             
