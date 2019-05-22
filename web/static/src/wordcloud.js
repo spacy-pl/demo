@@ -4,6 +4,7 @@
 let wordCloudSize = [640, 480] // width, height
 let ners = []
 let wordCloud
+let activeEntity
 
 // updated dynamically when viewport changes:
 let defaultMaxItemsInList = 42
@@ -44,6 +45,53 @@ function parseAndScale (responseData) {
   return adjectives.map(scaleCount)
 }
 
+function createModal (adj, sents) {
+  const getModalData = () => {
+    let modalTitle = document.getElementById('sentence-modal-title')
+    let modalList = document.getElementById('sentence-modal-list')
+    return [modalTitle, modalList]
+  }
+  const defineModal = () => {
+    let modalElement = document.createElement('div')
+    modalElement.id = 'sentence-modal'
+    modalElement.className = 'modal-overflow'
+    modalElement.setAttribute('uk-modal', '')
+    let modalTitle = document.createElement('h4')
+    modalTitle.id = 'sentence-modal-title'
+    modalTitle.className = 'uk-modal-title'
+    let modalList = document.createElement('ul')
+    modalList.id = 'sentence-modal-list'
+    modalList.className = 'uk-list uk-list-divider'
+    let modalContent = document.createElement('div')
+    modalContent.className = 'uk-modal-dialog uk-modal-body'
+    modalContent.setAttribute('uk-overflow-auto', '')
+    let modalButton = document.createElement('button')
+    modalButton.className = 'uk-modal-close-default'
+    modalButton.setAttribute('type', 'button')
+    modalButton.setAttribute('uk-close', '')
+    modalContent.appendChild(modalButton)
+    modalContent.appendChild(modalTitle)
+    modalContent.appendChild(modalList)
+    modalElement.appendChild(modalContent)
+    document.getElementById('wordcloud').appendChild(modalElement)
+    return [modalTitle, modalList]
+  }
+  let modalElement = document.getElementById('sentence-modal')
+  let [modalTitle, modalList] = modalElement ? getModalData() : defineModal()
+  modalTitle.innerHTML = `Sample uses of ${adj} adjective for ${activeEntity}`
+  // clear the list
+  while (modalList.firstChild) {
+    modalList.removeChild(modalList.firstChild)
+  }
+  // add sentences to the list
+  sents.forEach(sent => {
+    let el = document.createElement('li')
+    el.innerText = sent
+    modalList.appendChild(el)
+  })
+  return modalElement
+}
+
 function wordcloudHandler (inputElement, _) {
   if (inputElement.value.length === 0) return
   // set up progressbar animation
@@ -64,7 +112,7 @@ function wordcloudHandler (inputElement, _) {
       rotateRatio: 0.125,
       rotationSteps: 16,
       click: (item, dimension, event) => {
-        console.log(item, dimension)
+        UIkit.modal(createModal(item[0], item[2])).show()
       } // TODO: Display part of article
     })
     clearInterval(timer)
@@ -76,7 +124,8 @@ function wordcloudHandler (inputElement, _) {
 }
 
 function selectFromList (formElement, inputElement, listElement, listItemElement) {
-  inputElement.value = listItemElement.innerText
+  activeEntity = listItemElement.innerText
+  inputElement.value = activeEntity
   Array.from(listElement.children).forEach(item => item.classList.remove('uk-active'))
   listItemElement.classList.add('uk-active')
   let submitEvent = new Event('submit')
