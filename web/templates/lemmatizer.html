@@ -1,0 +1,65 @@
+<!-- LEMMATIZER SEARCH DEMO -->
+<div class="uk-container uk-margin-bottom" id="lemmatizer">
+    <article class="uk-article">
+        <h1 class="uk-article-title">
+            Advanced text search demo
+        </h1>
+
+        <p class="uk-text-lead">
+            Achieving better search matches thanks to correct tokenization and lemmatization.
+        </p>
+        <p>
+            Lemmatization is the process of grouping
+            together forms of a word so they can be analysed as a single item,
+            identified by the word's lemma, or dictionary form.
+            <br><br>
+            In spaCy, every language has a built-in tokenizer, which allows us to filter meaningful words from the text.
+            We can then use lemmatization on these tokens to process a search query - instead of looking at direct matches,
+            we look for lemma matches. That way, we can not only find the word in a form it was typed in by the user,
+            but in other forms as well.
+            <br><br>
+            To present how this process works, we have implemented a search tool that looks for words in
+            an invocation to <a href="https://en.wikipedia.org/wiki/Pan_Tadeusz">"Pan Tadeusz"</a> - a classic Polish work of art written by Adam Mickiewicz.
+            The search tool tries to match words provided in a form in two ways:
+            <br>
+            <div class="uk-text-center">
+                <span class="uk-label uk-label-success uk-text-uppercase">
+                    by comparing words directly
+                </span>
+                and
+                <span class="uk-label uk-label-warning uk-text-uppercase">
+                    by comparing words' lemmas
+                </span>
+            </div>
+            <br>
+            Because Polish language is very complex, searching direct matches of
+            words is often pointless. We display both kinds of matches so that you can
+            judge how greatly can this word processing technique improve search results.
+            Of course, this kind of functionality would rather be implemented on a database such as 
+            <a href="https://www.elastic.co/products/elasticsearch">Elasticsearch</a>.
+            This demo is only intended to showcase how much of a difference lemmatization can make.
+        </p>
+        <div class="uk-text-center">
+            <div class="uk-padding-large uk-padding-remove-vertical">
+                <progress id="lemmatizer-search-progressbar" class="uk-progress" value="0" max="100"></progress>
+            </div>
+            <form action="/lemmatizer" id="lemmatizer-search" method="post">
+                <div class="uk-margin" uk-margin>
+                    <input class="uk-input uk-form-width-large"
+                            id="lemmatizer-search-input"
+                            type="text" name="query" placeholder="">
+                    <button class="uk-button uk-button-default"
+                            id="lemmatizer-search-submit"
+                            type="submit" form="search" value="Submit">
+                        Search
+                    </button>
+                </div>
+            </form>
+            <div class="uk-text-small">
+                <p id="lemmatizer-search-output">
+                    <!-- Container for lemmatizer search output -->
+                </p>
+            </div>
+        </div>
+    </article>
+</div>

@@ -1,0 +1,363 @@
+<!-- MAIN PAGE -->
+<div class="uk-container uk-margin-bottom" id="home">
+    <article class="uk-article">
+        <div class="uk-inline">
+            <div class="">
+                <h1 class="uk-heading-hero uk-margin-large-bottom">
+                    spaCy-pl
+                </h1>
+
+                <p class="uk-text-lead">
+                    Devloping tools for Polish language processing in
+                    <a href="https://spacy.io/">spaCy</a>.
+                </p>
+                <p>
+                    Our goal is to extend spaCy, a popular production-ready NLP library, to fully support Polish language.
+                    <br>
+                    We are dedicated to using state-of-the art techniques for Polish language processing, which are demonstrated on this website.
+                </p>
+            </div>
+        </div>
+
+        <div class="uk-background-default">
+            <h2 class="uk-heading-bullet">
+                Development status
+            </h2>
+
+            <table class="uk-table uk-table-responsive uk-table-divider uk-table-hover">
+                <thead>
+                    <tr>
+                        <th class="uk-table-shrink uk-text-nowrap">Feature</th>
+                        <th class="uk-table-shrink uk-text-nowrap">Development status</th>
+                        <th class="uk-table-expand">Details</th>
+                    </tr>
+                </thead>
+                <tbody>
+                    <tr>
+                        <td class="uk-text-nowrap uk-text-bold">
+                            Tokenization
+                        </td>
+                        <td class="uk-text-nowrap">
+                            <span class="uk-label uk-label-success">Version: Final</span><br>
+                            <span class="uk-label uk-label-success">Status: Done</span><br>
+                            <span class="uk-label uk-label-success">Release: Merged</span><br>
+                        </td>
+                        <td>
+                            Current version is available on the master branch of spaCy,
+                            our contribution included an improved list of stop words for Polish.
+                            <br>
+                            For implementation details see
+                            <a href="https://github.com/explosion/spaCy/pull/2974/commits/69ec51a9ac42fc598ca028922b49dfab52c22ba7">
+                                our pull request
+                            </a>
+                        </td>
+                    </tr>
+                    <tr>
+                        <td class="uk-text-nowrap uk-text-bold">
+                            Lexical attributes
+                        </td>
+                        <td class="uk-text-nowrap">
+                            <span class="uk-label uk-label-success">Version: Final</span><br>
+                            <span class="uk-label uk-label-success">Status: Done</span><br>
+                            <span class="uk-label uk-label-success">Release: Merged</span><br>
+                        </td>
+                        <td>
+                            Initial release of attributes was added to spaCy
+                            <a href="https://github.com/explosion/spaCy/pull/2974/commits/69ec51a9ac42fc598ca028922b49dfab52c22ba7">
+                                in the pull request with tokenizer
+                            </a>
+                            <br>
+                        </td>
+                    </tr>
+                    <tr>
+                        <td class="uk-text-nowrap uk-text-bold">
+                            Lemmatization
+                        </td>
+                        <td class="uk-text-nowrap">
+                            <span class="uk-label uk-label-success">Version: Stable</span><br>
+                            <span class="uk-label uk-label-success">Status: Done</span><br>
+                            <span class="uk-label uk-label-warning">Release: In progress</span><br>
+                        </td>
+                        <td>
+                            <a href="https://github.com/explosion/spaCy/pull/3711">
+                                Lemmatizer pull request
+                            </a>
+                            is currently under review and should be merged to spaCy soon.
+                            <br>
+                        </td>
+                    </tr>
+                    <tr>
+                        <td class="uk-text-nowrap uk-text-bold">
+                            Word vectors
+                        </td>
+                        <td class="uk-text-nowrap">
+                            <span class="uk-label uk-label-success">Version: Final</span><br>
+                            <span class="uk-label uk-label-success">Status: Done</span><br>
+                        </td>
+                        <td>
+                            We started by training word2vec and GloVe embeddings on NKJP dataset,
+                            but eventually decided to use
+                            <a href="https://fasttext.cc/docs/en/crawl-vectors.html">
+                                facebook's fasttext vectors
+                            </a>
+                            for Polish.
+                            <br>
+                        </td>
+                    </tr>
+                    <tr>
+                        <td class="uk-text-nowrap uk-text-bold">
+                            POS Tagger
+                        </td>
+                        <td class="uk-text-nowrap">
+                            <span class="uk-label uk-label-success">Version: Stable</span><br>
+                            <span class="uk-label uk-label-success">Status: Done</span><br>
+                            <span class="uk-label uk-label-success">Release: Done</span><br>
+                        </td>
+                        <td>
+                            Current version of POS Tagger was trained on NKJP dataset,
+                            with labels reduced to match the UD POS tagset, using fasttext word vectors.
+                            <br>
+                            POS Tag Accuracy: <span class="uk-text-bold">97.87%</span>
+                            <br>
+                            To install pipeline (POS Tagger, Dependency Parser, NER):
+                            <br>
+                            <pre><code>pip install https://storage.googleapis.com/spacy-pl-public-models/pl_model-0.3.0.tar.gz</code></pre>
+                        </td>
+                    </tr>
+                    <tr>
+                        <td class="uk-text-nowrap uk-text-bold">
+                            Dependency Parser
+                        </td>
+                        <td class="uk-text-nowrap">
+                            <span class="uk-label uk-label-success">Version: Stable</span><br>
+                            <span class="uk-label uk-label-success">Status: Done</span><br>
+                            <span class="uk-label uk-label-success">Release: Done</span><br>
+                        </td>
+                        <td>
+                            Trained on LFG dataset, using fasttext word vectors.
+                            <br>
+                            Validation metrics:
+                            <span class="uk-text-bold">UAS = 93.95%</span>,
+                            <span class="uk-text-bold">LAS = 89.96%</span>
+                            <br>
+                            To install pipeline (POS Tagger, Dependency Parser, NER):
+                            <br>
+                            <pre><code>pip install https://storage.googleapis.com/spacy-pl-public-models/pl_model-0.3.0.tar.gz</code></pre>
+                        </td>
+                    </tr>
+                    <tr>
+                        <td class="uk-text-nowrap uk-text-bold">
+                            NER
+                        </td>
+                        <td class="uk-text-nowrap">
+                            <span class="uk-label uk-label-warning">Version: POC</span><br>
+                            <span class="uk-label uk-label-warning">Status: In progress</span><br>
+                            <span class="uk-label uk-label-success">Release: Done</span><br>
+                        </td>
+                        <td>
+                            NER is trained on Wrocław Dataset with reduced number of labels, using fasttext vectors.
+                            POC version is available in the recently released pipeline,
+                            and the new improved version is coming soon.
+                            <br>
+                            To install pipeline (POS Tagger, Dependency Parser, NER):
+                            <br>
+                            <pre><code>pip install https://storage.googleapis.com/spacy-pl-public-models/pl_model-0.3.0.tar.gz</code></pre>
+                        </td>
+                    </tr>
+                </tbody>
+            </table>
+
+            <h2 class="uk-heading-bullet">
+                Our team
+            </h2>
+            <div class="uk-grid-medium
+                        uk-child-width-1-1@s
+                        uk-child-width-1-1@m
+                        uk-child-width-1-2@l
+                        uk-child-width-1-2@xl
+                        uk-text-center"
+                 uk-grid>
+                <!-- Stanisław -->
+                <div>
+                    <div class="uk-card uk-card-default">
+                        <div class="uk-card-header">
+                            <div class="uk-grid-small uk-flex-middle" uk-grid>
+                                <div class="uk-width-auto">
+                                    <img class="uk-border-circle"
+                                         width="80"
+                                         height="80"
+                                         src="{{ url_for('static', filename='png/stanislaw.jpg') }}">
+                                </div>
+                                <div class="uk-width-expand">
+                                    <h3 class="uk-card-title uk-margin-remove-bottom">
+                                        Stanisław Giziński
+                                    </h3>
+                                    <p class="uk-text-meta uk-margin-remove-top">
+                                        <span class="uk-text-uppercase">
+                                                Team Leader, NLP Specialist
+                                        </span>
+                                        <br>
+                                        <a href="https://www.linkedin.com/in/stanis%C5%82aw-gizi%C5%84ski/"
+                                           class="uk-padding-small" target="_blank">LinkedIn</a>
+                                        <a href="https://github.com/Gizzio/"
+                                           class="uk-padding-small" target="_blank">GitHub</a>
+                                    </p>
+                                </div>
+                            </div>
+                        </div>
+                        <div class="uk-card-body uk-padding-small">
+                            <ul class="uk-list uk-text-small">
+                                <li>Existing NLP tools research & testing</li>
+                                <li>Dataset analysis & selection</li>
+                                <li>Data format integration</li>
+                                <li>Data version control setup & management</li>
+                                <li>Project planning</li>
+                                <li>Parser training</li>
+                            </ul>
+                        </div>
+                    </div>
+                </div>
+
+                <!-- Krzyztof -->
+                <div>
+                    <div class="uk-card uk-card-default">
+                        <div class="uk-card-header">
+                            <div class="uk-grid-small uk-flex-middle" uk-grid>
+                                <div class="uk-width-auto">
+                                    <img class="uk-border-circle"
+                                         width="80"
+                                         height="80"
+                                         src="{{ url_for('static', filename='png/krzysztof.jpg') }}">
+                                </div>
+                                <div class="uk-width-expand">
+                                    <h3 class="uk-card-title uk-margin-remove-bottom">
+                                        Krzysztof Kowalczyk
+                                    </h3>
+                                    <p class="uk-text-meta uk-margin-remove-top">
+                                        <span class="uk-text-uppercase">
+                                            Presentation & QA Specialist
+                                        </span>
+                                        <br>
+                                        <a href="https://www.linkedin.com/in/kowaalczyk/"
+                                           class="uk-padding-small" target="_blank">LinkedIn</a>
+                                        <a href="https://github.com/kowaalczyk/"
+                                           class="uk-padding-small" target="_blank">GitHub</a>
+                                        <a href="https://www.kaggle.com/kowaalczyk"
+                                           class="uk-padding-small" target="_blank">Kaggle</a>
+                                    </p>
+                                </div>
+                            </div>
+                        </div>
+                        <div class="uk-card-body uk-padding-small">
+                            <ul class="uk-list uk-text-small">
+                                <li>Workflow coordination</li>
+                                <li>Communication with spaCy maintainers</li>
+                                <li>Improved training tools implementation</li>
+                                <li>Code reviews & testing</li>
+                                <li>Demo website design & implementation</li>
+                                <li>Project presentations</li>
+                            </ul>
+                        </div>
+                    </div>
+                </div>
+
+                <!-- Piotr -->
+                <div>
+                    <div class="uk-card uk-card-default">
+                        <div class="uk-card-header">
+                            <div class="uk-grid-small uk-flex-middle" uk-grid>
+                                <div class="uk-width-auto">
+                                    <img class="uk-border-circle"
+                                         width="80"
+                                         height="80"
+                                         src="{{ url_for('static', filename='png/piotr.jpg') }}">
+                                </div>
+                                <div class="uk-width-expand">
+                                    <h3 class="uk-card-title uk-margin-remove-bottom">
+                                        Piotr Ksiązek
+                                    </h3>
+                                    <p class="uk-text-meta uk-margin-remove-top">
+                                        <span class="uk-text-uppercase">
+                                            Developer & researcher
+                                        </span>
+                                        <br>
+                                        <!-- TODO: Links -->
+                                    </p>
+                                </div>
+                            </div>
+                        </div>
+                        <div class="uk-card-body uk-padding-small">
+                            <ul class="uk-list uk-text-small">
+                                <li>Statistical analysis of NKJP Corpus</li>
+                                <li>Tokenizer research & implementation</li>
+                                <li>Trie-based lemmatizer implementation</li>
+                                <li>Tagset conversion implementation</li>
+                                <li>Vocab data generation</li>
+                                <li>NER training</li>
+                            </ul>
+                        </div>
+                    </div>
+                </div>
+
+                <!-- Mateusz -->
+                <div>
+                    <div class="uk-card uk-card-default">
+                        <div class="uk-card-header">
+                            <div class="uk-grid-small uk-flex-middle" uk-grid>
+                                <div class="uk-width-auto">
+                                    <img class="uk-border-circle"
+                                         width="80"
+                                         height="80"
+                                         src="{{ url_for('static', filename='png/mateusz.jpg') }}">
+                                </div>
+                                <div class="uk-width-expand">
+                                    <h3 class="uk-card-title uk-margin-remove-bottom">
+                                        Mateusz Olko
+                                    </h3>
+                                    <p class="uk-text-meta uk-margin-remove-top">
+                                        <span class="uk-text-uppercase">
+                                            Developer & researcher
+                                        </span>
+                                        <br>
+                                        <a href="https://www.linkedin.com/in/mateusz-olko-9aa3b2167/"
+                                           class="uk-padding-small" target="_blank">LinkedIn</a>
+                                        <a href="https://github.com/MateuszOlko"
+                                           class="uk-padding-small" target="_blank">GitHub</a>
+                                    </p>
+                                </div>
+                            </div>
+                        </div>
+                        <div class="uk-card-body uk-padding-small">
+                            <ul class="uk-list uk-text-small">
+                                <li>Communication with project principal</li>
+                                <li>Lemmatization rules research & selection</li>
+                                <li>Tagset selection</li>
+                                <li>Tagger training</li>
+                                <li>Integration of fasttext vectors into all models</li>
+                                <li>Model testing</li>
+                            </ul>
+                        </div>
+                    </div>
+                </div>
+            </div>
+
+            <h2 class="uk-heading-bullet">
+                Project principal
+            </h2>
+            <p>
+                This project is a part of our BSc thesis at
+                <a href="https://mimuw.edu.pl">
+                    University of Warsaw,
+                    Faculty of Mathematics, Informatics and Mechanics
+                    (MIM UW)
+                </a>.
+                <br><br>
+                It was proposed by <a href="https://sigmoidal.io/">Sigmoidal LLC</a>,
+                a Machine Learning Consulting firm experienced
+                in applying AI and Machine Learning to business problems.
+            </p>
+        </div>
+
+
+    </article>
+</div>

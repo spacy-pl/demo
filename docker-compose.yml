@@ -1,10 +1,42 @@
-version: '2'
+version: "3"
 services:
-  demo:
-    build: .
+  web:
+    container_name: "demo_web"
+    build:
+      context: "./web"
+      dockerfile: Dockerfile
+    expose:
+      - 8080
+    restart: "on-failure"
+    depends_on:
+      - "ner_storage"
+    command: "uwsgi --ini /app/uwsgi.ini"
+
+  ner_storage:
+    image: redis
     ports:
-      - "5000:5000"
+      - "${USERS_SERVICE_REDIS_PORT}:6379"
     volumes:
-      - ".:/demo"
-    working_dir: /demo
-    command: "make install preprocess nbconvert run-server"
+      - redis_store:/data
+
+  processor:
+    image: "python"
+    depends_on:
+      - "ner_storage"
+    build:
+      context: ./process
+      dockerfile: Dockerfile
+    command: "python process.py"
+  
+  nginx:
+    build:
+      context: "./nginx"
+      dockerfile: Dockerfile
+    ports:
+      - 80:80
+    depends_on:
+      - "web"
+      
+      
+volumes:
+  redis_store:

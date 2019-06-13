@@ -1,0 +1,72 @@
+<!-- WORDCLOUD PAGE -->
+<div id="wordcloud"
+     class="uk-padding-remove uk-margin-bottom"
+     uk-height-viewport="expand: true">
+
+    <article class="uk-article uk-margin-bottom">
+        <h1 class="uk-article-title">
+            Entity attribute search
+        </h1>
+        <p class="uk-text-lead">
+            Searching for adjectives that describe a given entity.
+        </p>
+        <p>
+            In this demo, we can use spaCy to identify named entities and find adjectives that
+            are used to describe them in a set of polish newspaper articles.
+        <br><br>
+            Use the search panel below to select a named entity and
+            display a wordcloud of adjectives that refer to that entity.
+        </p>
+    </article>
+
+
+    <div class="uk-grid-collapse
+                uk-text-center"
+         uk-grid
+         uk-height-match>
+        <!-- Row 1 -->
+        <div class="uk-width-1-4@m">
+            <!-- Search form -->
+            <form id="ner-wordcloud"
+                  class="uk-margin-auto-vertical uk-search uk-search-default uk-width-expand"
+                  action="/api/NERs"
+                  method="post"
+                  autocomplete="off">
+                <a id="ner-wordcloud-submit" class="uk-search-icon-flip" href="" uk-search-icon></a>
+                <input id="ner-wordcloud-input"
+                       class="uk-search-input"
+                       type="search"
+                       placeholder="Search">
+            </form>
+        </div>
+        <div class="uk-width-expand@m uk-flex">
+            <!-- Progressbar -->
+            <div class="uk-margin-auto-vertical uk-width-1-1@s uk-padding-small">
+                <progress id="ner-wordcloud-progressbar"
+                          class="uk-progress uk-margin-remove-bottom"
+                          value="0"
+                          max="100">
+                </progress>
+            </div>
+        </div>
+    </div>
+    <div class="uk-grid-collapse
+                uk-text-center
+                uk-padding-remove"
+         uk-grid
+         uk-height-match>
+        <!-- Row 2 -->
+        <div class="uk-width-1-4@m uk-margin-remove">
+            <!-- List of possible entities -->
+            <ul id="ner-wordcloud-list"
+                class="uk-nav uk-nav-default uk-background-muted uk-text-bold">
+            </ul>
+        </div>
+        <div class="uk-width-expand@m" id="wordcloud-grid-panel">
+            <!-- Adjective wordcloud -->
+            <canvas id="wordcloud-content">
+                <!-- Wordcloud will be generated here. -->
+            </canvas>
+        </div>
+    </div>
+</div>

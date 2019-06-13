@@ -1,0 +1,4 @@
+redis
+nltk
+https://github.com/spacy-pl/spaCy/archive/pl-release/lemmatizer-tagmap-and-tests.zip
+tqdm
