@@ -1,79 +1,40 @@
 # spacy-pl-demo
-Demonstration of Polish language support in spaCy.
+Demonstration of Polish language support in spaCy, see it live on: http://spacypl.sigmoidal.io
 
 ## How it works
-Flask application defined in `app.py` assembles `templates` and bundles `static` files 
-into a single-page application. Navigation and demo functionalities are handled 
-by `static/src/main.js` on the front end, and the `app.py` with 
-a help of the `spacy_pl_demo` python package on the backend.
+Demo contains a flask application which displays status of development process for each of the modules,
+rendered jupyter notebooks with instructions and examples of how to use the latest Polish language version,
+as well as an interactive demonstration - a simple application that allows you to select a famous person 
+and visualize adjectives used to describe that person in a set of polish newspaper articles.
 
-Application requires specific version of spacy (located in the `spacy_install` directory) as well as `spacy_pl_utils` demo branch, both of which are included as git submodules. It also requires some preprocessing of 
-the included data, most of which is automated in the `Makefile`.
+Aside from the flask application, we use rabbitmq to store processed documents, preprocessing container that
+scrapes articles and performs all heavy data processing and an nginx server as a gateway.
 
-## Prerequisites
-Make sure you have aws cli installed and configured for reading the remote server specified in `spacy_pl_utils/.dvc/config` 
-as well as python 3.7 or newer (dev setup and deployment were tested on conda python 3.7.1 distribution).
+## Interactive demonstration
+SpaCy is a library that puts a high focus on efficiency - we wanted to demonstrate how it allowed us to build
+the core demo application functionality within a few hours. To analyze the scraped articles and match
+famous people names with adjectives relating to them, the following steps need to be taken:
 
-## Dev setup
-Execute these to install dependencies, preprocess data and run a 
-Flask development server on `localhost:5000`:
-```bash
-git submodule init  # only for the 1st time
-git submodule update --recursive  # only for the 1st time
-conda create -n spacy-demo  # only for the 1st time
-source activate spacy-demo
-make develop  # setup & start server, this can take a few minutes
-```
-Server is set up to autoreload whenever app or its dependencies change.
-Develop is a long process that can be divided into smaller automated steps if necessary 
-- see `Makefile` for more details.
+1. Tokenization - parsing the text to separate it into tokens: words, punctuation, etc that we can use
+later to separate sentences or vectorize tokens to use machine learning
+2. Named Entity Recognition - spaCy uses deep learning models to classify spans of text (one or more tokens) into
+various classes of named entities - we use that to select just the people mentioned in the text
+3. Dependency Parsing - this also is a neural network, this time trained to build 
+a tree of relationships between tokens in a sentence. Having already marked famous people in the previous step,
+we can filter words that are connected to them in the sentence tree.
+4. Part-of-Speech Tagging - now that we have a words connected to famous people, we just want to keep the adjectives,
+and this is where POS Tagging comes along - this is also a neural network classifier, just like steps 2 and 3
+5. Lemmatization - adjectives we currently have come in various forms - we need to unify their form, otherwise
+each of the forms of an adjective would be counted as a separate adjective.
 
-### Docker (WIP)
-The Docker container can be built using docker compose.
-This works, but is not yet as efficient as I would like it to be.
-
-1. In order for dvc to work, place your google cloud json key in `dev/`, its protected from adding to git via `.gitignore`
-2. `docker-compose build` installs as much as possible, this is only done once
-3. `docker-compose up` currently not only runs the app, but also some preprocessing
-which in the future will likely be moved to build (but is now impossible due to demo's directory structure)
-
-Docker volume is mounted so that demo package and app itself auto-reloads on any change in source files.
-Note that changes to spacy or utils directories will **NOT** result in a reload.
+Our implementation of all these steps inside a single library is, at the moment of writing this, 
+the only one that exisits for Polish language. This is extremely important, as it allows companies
+using spaCy for other languages easily extend their work to Polish. For newcomers, spaCy also offers benefits,
+such as the clear and easy interface: all steps mentioned above are computed automatically within 2-3 lines of code :)
 
 ## Deployment
-In addition to prerequisites described earlier, this requires 
-a machine with nginx installed and running as a service.
-
-Also, make sure that nginx is configured to restart automatically in case of system failure.
-The easiest way to do this is to modify `/lib/systemd/system/nginx.service`, adding the following line below the `[Service]` tag:
+Application exposes ports through a secure nginx server in a container. All you need is:
 ```
-Restart=always
+docker-compose build
+docker-compose up
 ```
-
-To perform full deployment, execute this on a server after cloning the repo:
-```
-git submodule init  # only for the 1st time
-git submodule update --recursive  # only for the 1st time
-conda create -n spacy-demo python=3.7.2 pip=18.1  # only for the 1st time
-source activate spacy-demo
-make deploy
-```
-Expect to be prompted for password muliple times - 
-sudo is required to access nginx and service config files.
-
-Deployment steps based on:
-- https://www.digitalocean.com/community/tutorials/how-to-serve-flask-applications-with-uswgi-and-nginx-on-ubuntu-18-04
-- https://peteris.rocks/blog/deploy-flask-apps-using-anaconda-on-ubuntu-server/
-- https://stackoverflow.com/questions/17413526/nginx-missing-sites-available-directory
-- https://stackoverflow.com/a/40041214
-
-## Common problems
-
-##### `ValueError: 143478 exceeds max_map_len(32768)`
-Due to `msgpack` update, `spacy.load` breaks when trying to read our custom vocab. In order to fix this, install older version of `msgpack` and re-start the server:
-```
-# in a virtual env:
-python -m pip install "msgpack==0.5.6"
-make run-server
-```
-Suggested by: https://github.com/explosion/spaCy/issues/3053
